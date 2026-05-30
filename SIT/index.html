@@ -95,14 +95,6 @@
       animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .brand-logo {
-      height: 48px;
-      width: auto;
-      object-fit: contain;
-      margin-bottom: 0.75rem;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
-    }
-
     .brand-title {
       font-family: 'Outfit', sans-serif;
       font-size: 1.35rem;
@@ -422,12 +414,33 @@
       transform: translateY(-0.5px) scale(0.97);
     }
 
-    .btn-icon {
-      width: 12px;
-      height: 12px;
-      stroke-width: 3px;
-      stroke: currentColor;
-      fill: none;
+    /* Back / Overview button */
+    .btn-overview {
+      display: none;
+      align-items: center;
+      gap: 0.35rem;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid rgba(22, 36, 46, 0.25);
+      padding: 0.35rem 0.85rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 0.65rem;
+      opacity: 0.7;
+    }
+
+    .btn-overview:hover {
+      background-color: rgba(22, 36, 46, 0.08);
+      opacity: 1;
+    }
+
+    body.state-focus-dmc .engine-card[data-engine="dmc"] .btn-overview,
+    body.state-focus-tme .engine-card[data-engine="tme"] .btn-overview {
+      display: inline-flex;
     }
 
     /* --------------------------------------------------
@@ -809,7 +822,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start; /* Top-align with engine cards */
+      padding-top: 1.25rem; /* visual offset to align with card content */
       position: relative;
       transition: opacity var(--transition-speed) var(--transition-spring);
       z-index: 5;
@@ -1092,7 +1106,6 @@
        CENTERED BRAND LOGO & TITLE
        -------------------------------------------------- -->
   <header class="brand-header">
-    <img class="brand-logo" alt="SIT Logo" src="data:image/png;base64,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">
     <h1 class="brand-title">Special Interest Travel & The Malta Experience — one growth system</h1>
     <span class="brand-subtitle">A marketing growth plan for the M. Demajo Hospitality Division</span>
   </header>
@@ -1106,8 +1119,9 @@
       <!-- DMC CARD (LEFT) -->
       <section class="engine-card" data-engine="dmc" id="cardDMC" aria-expanded="false" tabindex="0">
         <div class="engine-header">
+          <button class="btn-overview" id="btnOverviewDMC" aria-label="Back to overview">Overview</button>
           <h2 class="engine-title">SIT — Special Interest Travel (DMC)</h2>
-          <span class="engine-subtitle">The trust engine · B2B</span>
+          <span class="engine-subtitle">THE TRUST ENGINE · B2B</span>
           <p class="engine-objective">Generate qualified B2B pipeline that feeds sales and revenue.</p>
           <p class="engine-objective-marketing" style="font-size: 0.72rem; opacity: 0.8; margin-top: 0.25rem; font-style: italic; font-weight: 600; color: var(--ink);">Marketing delivers qualified opportunities + the proof to close. Sales closes.</p>
         </div>
@@ -1159,12 +1173,12 @@
                 <path d="M 220,55 A 85,85 0 1,1 139,114" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-main" />
 
                 <!-- Feedback Flowing Track (Step 5 -> 1) -->
-                <path d="M 139,114 A 85,85 0 0,1 205,58" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-feedback" marker-end="url(#cycleRedArrowHeadB2B)" />
+                <path d="M 139,114 A 85,85 0 0,1 205,58" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-feedback" />
 
                 <!-- Text along the feedback path (in dark ink, not red) -->
                 <path id="loopTextPathB2B" d="M 139,114 A 85,85 0 0,1 205,58" fill="none" />
                 <text font-family="Outfit" font-weight="800" font-size="7.5" fill="var(--ink)" dy="-5">
-                  <textPath href="#loopTextPathB2B" startOffset="50%" text-anchor="middle">↻ referrals/repeat feed Reach</textPath>
+                  <textPath href="#loopTextPathB2B" startOffset="50%" text-anchor="middle">↻ loyalty & cross-sell feeds pipeline</textPath>
                 </text>
 
                 <!-- Nodes -->
@@ -1204,7 +1218,7 @@
                 <g class="cycle-node" tabindex="0" aria-label="Step 5: Win">
                   <circle cx="139" cy="114" r="18" class="node-bg" />
                   <circle cx="139" cy="114" r="12" class="node-dot" />
-                  <text x="139" y="114" class="node-number">5</text>
+                  <text x="139" cy="114" class="node-number">5</text>
                   <text x="114" y="118" class="node-label" text-anchor="end">Win</text>
                 </g>
               </svg>
@@ -1213,33 +1227,18 @@
 
           <!-- Step 3: Message & Channels (Two levels) -->
           <div class="reveal-level" data-step="3">
-            <div class="pillar-message-container" style="background-color: var(--red); color: var(--white); padding: 1.25rem 1.5rem; border-radius: 10px; margin-bottom: 1.25rem; box-shadow: 0 4px 15px rgba(203, 43, 28, 0.15); border: 1px solid rgba(255,255,255,0.1);">
-              <h4 class="pillar-message-text" style="font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 800; line-height: 1.2; color: var(--white); margin-bottom: 0.4rem;">"We take the risk out of your event."</h4>
-              <p class="pillar-message-sub" style="font-size: 0.85rem; color: rgba(255,255,255,0.9); font-weight: 500; line-height: 1.4;">Security · low risk · resolved complexity · 45 years of flawless execution.</p>
+            <div class="pillar-message-container" style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(4px); border: 1px solid rgba(22, 36, 46, 0.1); padding: 1.25rem 1.5rem; border-radius: 10px; margin-bottom: 1.25rem; border-left: 4px solid var(--ink);">
+              <h4 class="pillar-message-text" style="font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 800; line-height: 1.2; color: var(--ink); margin-bottom: 0.4rem;">"We take the risk out of your event."</h4>
+              <p class="pillar-message-sub" style="font-size: 0.85rem; color: var(--ink); opacity: 0.75; font-weight: 500; line-height: 1.4;">Security · low risk · resolved complexity · 45 years of flawless execution.</p>
             </div>
             
             <span class="channels-title" style="opacity: 0.55; margin-bottom: 0.25rem; display: block;">The Channels (Secondary)</span>
             <div class="channels-container" style="gap: 0.45rem; margin-top: 0.5rem; opacity: 0.85;">
-              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">
-                <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
-                Buyer-intent SEO
-              </span>
-              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">
-                <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10zM2 12h20" stroke-linecap="round"/></svg>
-                Trade networks
-              </span>
-              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">
-                <svg class="chip-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                LinkedIn & ABM
-              </span>
-              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">
-                <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke-linecap="round"/></svg>
-                Trade shows / fam trips
-              </span>
-              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">
-                <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke-linecap="round"/></svg>
-                Referrals
-              </span>
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">Buyer-intent SEO</span>
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">Trade networks</span>
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">LinkedIn & ABM</span>
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">Trade shows / fam trips</span>
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">Referrals</span>
             </div>
           </div>
 
@@ -1275,14 +1274,13 @@
         <!-- REVEAL BUTTON -->
         <div class="btn-reveal-container">
           <button class="btn-reveal" id="btnRevealDMC" aria-controls="stackDMC">
-            <svg class="btn-icon" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Show who we speak to
+            Audiences
           </button>
         </div>
       </section>
 
       <!-- CONNECTION ARROW -->
-      <div class="connection-column" id="connectionArrow">
+      <div class="connection-column" id="connectionArrow" style="display: flex; align-items: flex-start;">
         <div class="arrow-container" title="Strategic feedback loop explanation" tabindex="0">
           <svg class="arrow-svg" viewBox="0 0 60 24">
             <path d="M 0 10 L 45 10 L 41 4 L 56 12 L 41 20 L 45 14 L 0 14 Z" />
@@ -1296,8 +1294,9 @@
       <!-- THE MALTA EXPERIENCE CARD (RIGHT) -->
       <section class="engine-card" data-engine="tme" id="cardTME" aria-expanded="false" tabindex="0">
         <div class="engine-header">
+          <button class="btn-overview" id="btnOverviewTME" aria-label="Back to overview">Overview</button>
           <h2 class="engine-title">The Malta Experience</h2>
-          <span class="engine-subtitle">The demand engine · B2C / e-commerce</span>
+          <span class="engine-subtitle">THE DEMAND ENGINE · B2C / E-COMMERCE</span>
           <p class="engine-objective">Capture existing tourist demand and win direct bookings — recover margin from OTAs and fill the show.</p>
         </div>
 
@@ -1314,11 +1313,11 @@
                 <div class="volume-bar-container"><div class="volume-bar-fill" style="width: 15%;"></div></div>
               </div>
               
-              <div class="audience-item weight-large">
-                <span class="audience-badge" style="background-color: var(--red);">FIT</span>
+              <div class="audience-item weight-large" style="border-left-color: #4A89C0; box-shadow: 0 6px 16px rgba(74,137,192,0.1);">
+                <span class="audience-badge" style="background-color: #4A89C0;">FIT</span>
                 <span class="audience-title-text">Independent tourists (FIT)</span>
                 <span class="audience-note">the real volume · incl. cruise & independent leisure</span>
-                <div class="volume-bar-container"><div class="volume-bar-fill" style="width: 85%;"></div></div>
+                <div class="volume-bar-container"><div class="volume-bar-fill" style="width: 85%; background-color: #4A89C0;"></div></div>
               </div>
             </div>
           </div>
@@ -1394,9 +1393,9 @@
 
           <!-- Step 3: Message & Channels -->
           <div class="reveal-level" data-step="3">
-            <div class="pillar-message-container" style="background-color: var(--red); color: var(--white); padding: 1.25rem 1.5rem; border-radius: 10px; margin-bottom: 1.25rem; box-shadow: 0 4px 15px rgba(203, 43, 28, 0.15); border: 1px solid rgba(255,255,255,0.1);">
-              <h4 class="pillar-message-text" style="font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 800; line-height: 1.25; color: var(--white); margin-bottom: 0.4rem;">"Understand 7,000 years of Malta in 45 minutes — the first thing to do, in 17 languages, booked in one tap."</h4>
-              <p class="pillar-message-sub" style="font-size: 0.85rem; color: rgba(255,255,255,0.9); font-weight: 500; line-height: 1.4;">Desire + ease — not security. Skip-the-queue · guaranteed seat · best price direct.</p>
+            <div class="pillar-message-container" style="background-color: rgba(22, 36, 46, 0.08); padding: 1.25rem 1.5rem; border-radius: 10px; margin-bottom: 1.25rem; border-left: 4px solid var(--ink); border-top: 1px solid rgba(22,36,46,0.1); border-right: 1px solid rgba(22,36,46,0.1); border-bottom: 1px solid rgba(22,36,46,0.1);">
+              <h4 class="pillar-message-text" style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800; line-height: 1.25; color: var(--ink); margin-bottom: 0.4rem;">"Understand 7,000 years of Malta in 45 minutes — the first thing to do, in 17 languages, booked in one tap."</h4>
+              <p class="pillar-message-sub" style="font-size: 0.85rem; color: var(--ink); opacity: 0.75; font-weight: 500; line-height: 1.4;">Desire + ease — not security. Skip-the-queue · guaranteed seat · best price direct.</p>
             </div>
             
             <div class="channels-grouped">
@@ -1460,8 +1459,7 @@
         <!-- REVEAL BUTTON -->
         <div class="btn-reveal-container">
           <button class="btn-reveal" id="btnRevealTME" aria-controls="stackTME">
-            <svg class="btn-icon" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Show who we speak to
+            Audiences ›
           </button>
         </div>
       </section>
@@ -1500,12 +1498,12 @@
       let dmcStep = 0; // 0 to 4
       let tmeStep = 0; // 0 to 4
 
-      // Reveal Button copy lists
+      // Reveal Button copy lists (short business nouns)
       const revealLabels = [
-        "Show who we speak to",
-        "Show the cycle",
-        "Show what we say & where",
-        "Show the numbers"
+        "Audiences ›",
+        "The cycle ›",
+        "Positioning & channels ›",
+        "KPIs ›"
       ];
 
       // --------------------------------------------------
@@ -1626,10 +1624,7 @@
 
         if (step < 4) {
           button.style.display = 'inline-flex';
-          button.innerHTML = `
-            <svg class="btn-icon" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            ${revealLabels[step]}
-          `;
+          button.innerHTML = revealLabels[step];
         } else {
           button.style.display = 'none';
         }
@@ -1640,6 +1635,22 @@
           initialParent.appendChild(btnContainer);
         }
       }
+
+      // --------------------------------------------------
+      // BACK / OVERVIEW BUTTON
+      // --------------------------------------------------
+      const btnOverviewDMC = document.getElementById("btnOverviewDMC");
+      const btnOverviewTME = document.getElementById("btnOverviewTME");
+
+      btnOverviewDMC.addEventListener("click", (e) => {
+        e.stopPropagation();
+        exitFocus();
+      });
+
+      btnOverviewTME.addEventListener("click", (e) => {
+        e.stopPropagation();
+        exitFocus();
+      });
 
       // --------------------------------------------------
       // EVENT LISTENERS & TRIGGERS
