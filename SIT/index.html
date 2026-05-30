@@ -95,13 +95,11 @@
       animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .brand-logo {
-      height: 56px;
+    .brand-logo-svg {
+      height: 54px;
       width: auto;
-      object-fit: contain;
       margin-bottom: 0.9rem;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.35));
-      opacity: 0.92;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
     }
 
     .brand-title {
@@ -196,12 +194,12 @@
 
     .engine-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem; /* Smaller default */
-      font-weight: 800;
+      font-size: 1.15rem;
+      font-weight: 700;
       color: var(--ink);
       line-height: 1.15;
       margin-bottom: 0.2rem;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.02em;
       transition: font-size var(--transition-speed) var(--transition-spring), margin-bottom var(--transition-speed) var(--transition-spring);
     }
 
@@ -889,10 +887,13 @@
       overflow: hidden;
     }
 
-    /* Home state: equal height for both engine cards */
+    /* Home state: equal-ish height for both engine cards, fade bottom edge */
     body.state-home .engine-card {
-      height: 270px;
+      min-height: 260px;
+      max-height: 310px;
       overflow: hidden;
+      -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
     }
 
     /* --------------------------------------------------
@@ -1057,7 +1058,14 @@
        CENTERED BRAND LOGO & TITLE
        -------------------------------------------------- -->
   <header class="brand-header">
-    <img class="brand-logo" src="logo.png" alt="M. Demajo Hospitality Division">
+    <svg class="brand-logo-svg" viewBox="0 0 90 38" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SIT logo">
+      <rect x="0" y="0" width="10" height="10" rx="1.5" fill="#F5821F"/>
+      <rect x="12" y="0" width="10" height="10" rx="1.5" fill="#7AC043"/>
+      <rect x="0" y="12" width="10" height="10" rx="1.5" fill="#EE3124"/>
+      <rect x="12" y="12" width="10" height="10" rx="1.5" fill="#00AEEF"/>
+      <text x="25" y="20" font-family="Georgia, serif" font-size="22" font-weight="400" fill="rgba(255,255,255,0.7)">∫</text>
+      <text x="42" y="23" font-family="Outfit, sans-serif" font-size="22" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">SIT</text>
+    </svg>
     <h1 class="brand-title">Special Interest Travel & The Malta Experience — one growth system</h1>
     <span class="brand-subtitle">A marketing growth plan for the M. Demajo Hospitality Division</span>
   </header>
@@ -1075,7 +1083,7 @@
           <h2 class="engine-title">SIT — Special Interest Travel (DMC)</h2>
           <span class="engine-subtitle">THE TRUST ENGINE · B2B</span>
           <p class="engine-objective">Generate qualified B2B pipeline that feeds sales and revenue.</p>
-          <p class="engine-objective-marketing" style="font-size: 0.72rem; opacity: 0.8; margin-top: 0.25rem; font-style: italic; font-weight: 600; color: var(--ink);">Marketing delivers qualified opportunities + the proof to close. Sales closes.</p>
+          <p class="engine-objective-marketing" style="font-size: 0.78rem; margin-top: 0.3rem; font-weight: 600; color: var(--ink); opacity: 0.7; background: rgba(22,36,46,0.07); border-radius: 6px; padding: 0.35rem 0.6rem;">Marketing: qualified opportunities + proof to close &rarr; Sales closes.</p>
         </div>
 
         <!-- REVEAL STACK -->
@@ -1106,7 +1114,7 @@
           <div class="reveal-level" data-step="2">
             <h3 class="level-header">The lead cycle</h3>
             <div class="svg-cycle-container">
-              <svg class="svg-cycle" viewBox="65 15 310 260" width="100%" aria-label="B2B Lead cycle circular pipeline flow">
+              <svg class="svg-cycle" viewBox="28 10 384 270" width="100%" aria-label="B2B Lead cycle circular pipeline flow">
                 <defs>
                   <marker id="cycleRedArrowHeadB2B" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                     <path d="M 10 2 L 3 5 L 10 8 z" fill="var(--red)"/>
@@ -1280,7 +1288,7 @@
           <div class="reveal-level" data-step="2">
             <h3 class="level-header">The visitor cycle</h3>
             <div class="svg-cycle-container">
-              <svg class="svg-cycle" viewBox="65 15 310 260" width="100%" aria-label="B2C Visitor cycle circular pipeline flow">
+              <svg class="svg-cycle" viewBox="28 10 384 270" width="100%" aria-label="B2C Visitor cycle circular pipeline flow">
                 <defs>
                   <marker id="cycleRedArrowHeadB2C" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                     <path d="M 10 2 L 3 5 L 10 8 z" fill="var(--red)"/>
