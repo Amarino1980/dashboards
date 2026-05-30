@@ -96,31 +96,31 @@
     }
 
     .brand-logo {
-      height: 52px;
+      height: 56px;
       width: auto;
       object-fit: contain;
-      margin-bottom: 0.85rem;
-      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3)) brightness(0) invert(1);
-      opacity: 0.9;
+      margin-bottom: 0.9rem;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.35));
+      opacity: 0.92;
     }
 
     .brand-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.35rem;
+      font-size: 1.75rem;
       font-weight: 700;
       letter-spacing: -0.02em;
-      color: rgba(255, 255, 255, 0.85);
-      margin-bottom: 0.15rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.2rem;
     }
 
     .brand-subtitle {
       font-family: 'Outfit', sans-serif;
-      font-size: 0.82rem;
+      font-size: 1rem;
       color: var(--blue);
       font-weight: 600;
       text-transform: none;
       letter-spacing: 0.02em;
-      margin-top: 0.2rem;
+      margin-top: 0.25rem;
     }
 
     /* --------------------------------------------------
@@ -154,10 +154,10 @@
        -------------------------------------------------- */
     .engine-card {
       flex: 1;
-      max-width: 250px; /* 50-60% smaller default width */
-      min-height: 200px; /* 50-60% smaller default height */
+      max-width: 310px;
+      min-height: 220px;
       border-radius: var(--border-radius);
-      padding: 1.25rem 1.5rem; /* Compact padding */
+      padding: 1.35rem 1.65rem;
       position: relative;
       cursor: pointer;
       display: flex;
@@ -168,7 +168,7 @@
       -webkit-backdrop-filter: blur(12px);
       transition: all var(--transition-speed) var(--transition-spring);
       border: 1px solid rgba(255, 255, 255, 0.22);
-      height: auto; /* grow naturally */
+      height: auto;
     }
 
     .engine-card[data-engine="dmc"] {
@@ -891,7 +891,7 @@
 
     /* Home state: equal height for both engine cards */
     body.state-home .engine-card {
-      height: 230px;
+      height: 270px;
       overflow: hidden;
     }
 
@@ -1106,7 +1106,7 @@
           <div class="reveal-level" data-step="2">
             <h3 class="level-header">The lead cycle</h3>
             <div class="svg-cycle-container">
-              <svg class="svg-cycle" viewBox="0 0 440 320" width="135%" height="432" aria-label="B2B Lead cycle circular pipeline flow">
+              <svg class="svg-cycle" viewBox="65 15 310 260" width="100%" aria-label="B2B Lead cycle circular pipeline flow">
                 <defs>
                   <marker id="cycleRedArrowHeadB2B" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                     <path d="M 10 2 L 3 5 L 10 8 z" fill="var(--red)"/>
@@ -1127,10 +1127,10 @@
                 <!-- Feedback Flowing Track (Step 5 -> 1) -->
                 <path d="M 139,114 A 85,85 0 0,1 205,58" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-feedback" />
 
-                <!-- Text along the feedback path (in dark ink, not red) -->
+                <!-- Text along the feedback path -->
                 <path id="loopTextPathB2B" d="M 139,114 A 85,85 0 0,1 205,58" fill="none" />
                 <text font-family="Outfit" font-weight="800" font-size="7.5" fill="var(--ink)" dy="-5">
-                  <textPath href="#loopTextPathB2B" startOffset="50%" text-anchor="middle">↻ loyalty & cross-sell feeds pipeline</textPath>
+                  <textPath href="#loopTextPathB2B" startOffset="50%" text-anchor="middle">↻ referrals &amp; repeat feed Reach</textPath>
                 </text>
 
                 <!-- Nodes -->
@@ -1154,7 +1154,7 @@
                 <g class="cycle-node" tabindex="0" aria-label="Step 3: Nurture">
                   <circle cx="270" cy="209" r="18" class="node-bg" />
                   <circle cx="270" cy="209" r="12" class="node-dot" />
-                  <text x="270" cy="209" class="node-number">3</text>
+                  <text x="270" y="209" class="node-number">3</text>
                   <text x="288" y="244" class="node-label" text-anchor="start">Nurture</text>
                 </g>
 
@@ -1170,7 +1170,7 @@
                 <g class="cycle-node" tabindex="0" aria-label="Step 5: Win">
                   <circle cx="139" cy="114" r="18" class="node-bg" />
                   <circle cx="139" cy="114" r="12" class="node-dot" />
-                  <text x="139" cy="114" class="node-number">5</text>
+                  <text x="139" y="114" class="node-number">5</text>
                   <text x="114" y="118" class="node-label" text-anchor="end">Win</text>
                 </g>
               </svg>
@@ -1179,7 +1179,9 @@
 
           <!-- Step 3: Message & Channels (Two levels) -->
           <div class="reveal-level" data-step="3">
+            <h3 class="level-header">Message Pillars</h3>
             <div class="pillar-message-container" style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(4px); border: 1px solid rgba(22, 36, 46, 0.1); padding: 1.25rem 1.5rem; border-radius: 10px; margin-bottom: 1.25rem; border-left: 4px solid var(--ink);">
+              <span style="font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); opacity: 0.45; display: block; margin-bottom: 0.5rem;">AG — Proposed headline</span>
               <h4 class="pillar-message-text" style="font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 800; line-height: 1.2; color: var(--ink); margin-bottom: 0.4rem;">"We take the risk out of your event."</h4>
               <p class="pillar-message-sub" style="font-size: 0.85rem; color: var(--ink); opacity: 0.75; font-weight: 500; line-height: 1.4;">Security · low risk · resolved complexity · 45 years of flawless execution.</p>
             </div>
@@ -1256,19 +1258,19 @@
         <div class="reveal-stack" id="stackTME" aria-live="polite">
           <!-- Step 1: Audiences -->
           <div class="reveal-level" data-step="1">
-            <h3 class="level-header">Who we speak to</h3>
+            <h3 class="level-header">Our Target</h3>
             <div class="audience-weight-flex">
-              <div class="audience-item weight-small">
+              <div class="audience-item">
                 <span class="audience-badge">Group base</span>
                 <span class="audience-title-text">Group base load</span>
                 <span class="audience-note">predictable · ~zero acquisition cost · in-group margin</span>
                 <div class="volume-bar-container"><div class="volume-bar-fill" style="width: 15%;"></div></div>
               </div>
               
-              <div class="audience-item weight-large" style="border-left-color: #4A89C0; box-shadow: 0 6px 16px rgba(74,137,192,0.1);">
-                <span class="audience-badge" style="background-color: #4A89C0;">FIT</span>
+              <div class="audience-item" style="border-left-color: #4A89C0; box-shadow: 0 4px 12px rgba(74,137,192,0.1);">
+                <span class="audience-badge" style="background-color: #4A89C0; color: white;">FIT</span>
                 <span class="audience-title-text">Independent tourists (FIT)</span>
-                <span class="audience-note">the real volume · incl. cruise & independent leisure</span>
+                <span class="audience-note">the real volume · incl. cruise &amp; independent leisure</span>
                 <div class="volume-bar-container"><div class="volume-bar-fill" style="width: 85%; background-color: #4A89C0;"></div></div>
               </div>
             </div>
@@ -1278,7 +1280,7 @@
           <div class="reveal-level" data-step="2">
             <h3 class="level-header">The visitor cycle</h3>
             <div class="svg-cycle-container">
-              <svg class="svg-cycle" viewBox="0 0 440 320" width="135%" height="432" aria-label="B2C Visitor cycle circular pipeline flow">
+              <svg class="svg-cycle" viewBox="65 15 310 260" width="100%" aria-label="B2C Visitor cycle circular pipeline flow">
                 <defs>
                   <marker id="cycleRedArrowHeadB2C" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                     <path d="M 10 2 L 3 5 L 10 8 z" fill="var(--red)"/>
@@ -1343,7 +1345,9 @@
 
           <!-- Step 3: Message & Channels -->
           <div class="reveal-level" data-step="3">
+            <h3 class="level-header">Message Pillars</h3>
             <div class="pillar-message-container" style="background-color: rgba(22, 36, 46, 0.08); padding: 1.25rem 1.5rem; border-radius: 10px; margin-bottom: 1.25rem; border-left: 4px solid var(--ink); border-top: 1px solid rgba(22,36,46,0.1); border-right: 1px solid rgba(22,36,46,0.1); border-bottom: 1px solid rgba(22,36,46,0.1);">
+              <span style="font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); opacity: 0.45; display: block; margin-bottom: 0.5rem;">AG — Proposed headline</span>
               <h4 class="pillar-message-text" style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800; line-height: 1.25; color: var(--ink); margin-bottom: 0.4rem;">"Understand 7,000 years of Malta in 45 minutes — the first thing to do, in 17 languages, booked in one tap."</h4>
               <p class="pillar-message-sub" style="font-size: 0.85rem; color: var(--ink); opacity: 0.75; font-weight: 500; line-height: 1.4;">Desire + ease — not security. Skip-the-queue · guaranteed seat · best price direct.</p>
             </div>
