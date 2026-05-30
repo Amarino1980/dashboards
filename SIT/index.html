@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Two Engines — Strategic Group Dashboard</title>
+  <!-- Google Fonts: Outfit (Headings), Plus Jakarta Sans (Body), JetBrains Mono (Technical/Data) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --------------------------------------------------
+       DESIGN SYSTEM & BRAND VARIABLES
+       -------------------------------------------------- */
+    :root {
+      /* Brand colors */
+      --blue:      #5D9ACB;  /* Brand blue */
+      --orange:    #E5B682;  /* Softer, desaturated brand orange */
+      --white:     #FFFFFF;  /* White */
+      --red:       #CB2B1C;  /* Accent red */
+      --green:     #96B173;  /* Softer, desaturated brand green */
+      
+      /* Refined Dark background and high-contrast parameters */
+      --blue-deep: #14293C;  /* Deep slate blue for backdrop */
+      --ink:       #16242E;  /* Dark ink for readability */
+      --surface:   #FFFFFF;  /* White surfaces */
+      
+      /* Layout UI specs */
+      --border-radius: 12px;
+      --transition-speed: 450ms;
+      --transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* physical spring physics */
+      
+      --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.1);
+      --shadow-medium: 0 15px 35px -5px rgba(0, 0, 0, 0.2);
+      --shadow-focused: 0 25px 55px -10px rgba(0, 0, 0, 0.4);
+    }
+
+    /* --------------------------------------------------
+       GENERAL STYLES & RESET
+       -------------------------------------------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 50% 20%, #172B3F 0%, #0E1824 100%);
+      color: var(--white);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      padding-bottom: 2rem;
+    }
+
+    /* --------------------------------------------------
+       CENTERED LOGO AREA (NO HEADER BAR)
+       -------------------------------------------------- */
+    .brand-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 2rem 0.5rem 2rem;
+      text-align: center;
+      width: 100%;
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .brand-logo {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      margin-bottom: 0.75rem;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 0.15rem;
+    }
+
+    .brand-subtitle {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      color: var(--blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    /* --------------------------------------------------
+       MAIN CANVAS LAYOUT (COMPACT & CENTERED)
+       -------------------------------------------------- */
+    main {
+      flex: 1;
+      max-width: 1000px; /* Constrained width to make cards 50% smaller */
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 2.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .canvas-layout {
+      display: flex;
+      align-items: flex-start; /* Resolve stretching height clipping bug */
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      gap: 3.5rem; /* Increased gap to give connection arrow breathing room */
+      transition: all var(--transition-speed) var(--transition-spring);
+      animation: scaleIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+    }
+
+    /* --------------------------------------------------
+       ENGINE COLUMNS / CARDS (COMPACT & SLENDER)
+       -------------------------------------------------- */
+    .engine-card {
+      flex: 1;
+      max-width: 250px; /* 50-60% smaller default width */
+      min-height: 200px; /* 50-60% smaller default height */
+      border-radius: var(--border-radius);
+      padding: 1.25rem 1.5rem; /* Compact padding */
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      color: var(--ink);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), var(--shadow-medium);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all var(--transition-speed) var(--transition-spring);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      height: auto; /* grow naturally */
+    }
+
+    .engine-card[data-engine="dmc"] {
+      background: linear-gradient(135deg, rgba(229, 182, 130, 0.96) 0%, rgba(206, 156, 102, 0.96) 100%);
+    }
+
+    .engine-card[data-engine="tme"] {
+      background: linear-gradient(135deg, rgba(150, 177, 115, 0.96) 0%, rgba(121, 148, 86, 0.96) 100%);
+    }
+
+    /* Hover effect in home state */
+    body.state-home .engine-card:hover {
+      transform: translateY(-6px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), var(--shadow-focused);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* --------------------------------------------------
+       ENGINE HEADERS
+       -------------------------------------------------- */
+    .engine-header {
+      margin-bottom: 0.75rem;
+      transition: margin-bottom var(--transition-speed) var(--transition-spring);
+    }
+
+    .engine-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem; /* Smaller default */
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 0.2rem;
+      letter-spacing: -0.03em;
+      transition: font-size var(--transition-speed) var(--transition-spring), margin-bottom var(--transition-speed) var(--transition-spring);
+    }
+
+    .engine-subtitle {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem; /* Smaller default */
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      background-color: rgba(22, 36, 46, 0.08);
+      color: var(--ink);
+      transition: font-size var(--transition-speed) var(--transition-spring), padding var(--transition-speed) var(--transition-spring), margin-bottom var(--transition-speed) var(--transition-spring);
+    }
+
+    .engine-objective {
+      font-size: 0.85rem; /* Smaller default */
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.35;
+      padding-bottom: 0;
+      border-bottom: none;
+      opacity: 0.95;
+      transition: all var(--transition-speed) var(--transition-spring);
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    /* --------------------------------------------------
+       FOCUS & RECEDE STATES (COMPACT WIDTHS)
+       -------------------------------------------------- */
+    /* Active Focused card expands */
+    body.state-focus-dmc .engine-card[data-engine="dmc"],
+    body.state-focus-tme .engine-card[data-engine="tme"] {
+      flex: 0 0 500px;
+      max-width: 500px;
+      min-height: 480px;
+      padding: 1.75rem 2rem;
+      cursor: default;
+      box-shadow: var(--shadow-focused);
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    body.state-focus-dmc .engine-card[data-engine="dmc"] .engine-header,
+    body.state-focus-tme .engine-card[data-engine="tme"] .engine-header {
+      margin-bottom: 1.25rem;
+    }
+
+    body.state-focus-dmc .engine-card[data-engine="dmc"] .engine-title,
+    body.state-focus-tme .engine-card[data-engine="tme"] .engine-title {
+      font-size: 1.65rem;
+      margin-bottom: 0.3rem;
+    }
+
+    body.state-focus-dmc .engine-card[data-engine="dmc"] .engine-subtitle,
+    body.state-focus-tme .engine-card[data-engine="tme"] .engine-subtitle {
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+      padding: 0.15rem 0.45rem;
+    }
+
+    body.state-focus-dmc .engine-card[data-engine="dmc"] .engine-objective,
+    body.state-focus-tme .engine-card[data-engine="tme"] .engine-objective {
+      font-size: 1.02rem;
+      line-height: 1.4;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(22, 36, 46, 0.12);
+      white-space: normal;
+      overflow: visible;
+    }
+
+    /* Desktop Receded cards styling */
+    @media (min-width: 761px) {
+      body.state-focus-dmc .engine-card[data-engine="tme"],
+      body.state-focus-tme .engine-card[data-engine="dmc"] {
+        flex: 0 0 250px;
+        max-width: 250px;
+        min-height: 200px;
+        height: 200px;
+        padding: 1.25rem 1.5rem;
+        transform: scale(0.6);
+        opacity: 0.35;
+        pointer-events: auto;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      body.state-focus-dmc .engine-card[data-engine="tme"] .engine-title,
+      body.state-focus-tme .engine-card[data-engine="dmc"] .engine-title {
+        font-size: 1.15rem;
+        margin-bottom: 0.2rem;
+      }
+
+      body.state-focus-dmc .engine-card[data-engine="tme"] .engine-subtitle,
+      body.state-focus-tme .engine-card[data-engine="dmc"] .engine-subtitle {
+        font-size: 0.65rem;
+        margin-bottom: 0.5rem;
+        padding: 0.1rem 0.35rem;
+      }
+
+      body.state-focus-dmc .engine-card[data-engine="tme"] .engine-objective,
+      body.state-focus-tme .engine-card[data-engine="dmc"] .engine-objective {
+        font-size: 0.85rem;
+        padding-bottom: 0;
+        border-bottom: none;
+        line-height: 1.35;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+      }
+    }
+
+    body.state-focus-dmc .canvas-layout {
+      justify-content: flex-start;
+    }
+
+    body.state-focus-tme .canvas-layout {
+      justify-content: flex-end;
+    }
+
+    /* --------------------------------------------------
+       REVEAL LEVELS (DARKER EMBEDDED CARDS)
+       -------------------------------------------------- */
+    .reveal-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+      width: 100%;
+    }
+
+    .reveal-level {
+      /* Darker, semi-transparent background relative to engine block */
+      background-color: rgba(22, 36, 46, 0.08);
+      border: 1px solid rgba(22, 36, 46, 0.12);
+      border-radius: var(--border-radius);
+      padding: 1.25rem 1.5rem;
+      display: none; /* hidden until triggered */
+      opacity: 0;
+      transform: translateY(16px);
+      color: var(--ink);
+      transition: opacity var(--transition-speed) var(--transition-spring), transform var(--transition-speed) var(--transition-spring);
+    }
+
+    .reveal-level.is-active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+      animation: revealCard 450ms var(--transition-spring) forwards;
+    }
+
+    /* Hide reveal buttons in home state */
+    body.state-home .btn-reveal-container {
+      display: none !important;
+    }
+
+    /* Hide stack and button for receded cards (both desktop and mobile) */
+    body.state-focus-dmc .engine-card[data-engine="tme"] .reveal-stack,
+    body.state-focus-dmc .engine-card[data-engine="tme"] .btn-reveal-container,
+    body.state-focus-tme .engine-card[data-engine="dmc"] .reveal-stack,
+    body.state-focus-tme .engine-card[data-engine="dmc"] .btn-reveal-container {
+      display: none !important;
+    }
+
+    .level-header {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      opacity: 0.55;
+      margin-bottom: 0.85rem;
+      border-bottom: 1px solid rgba(22, 36, 46, 0.08);
+      padding-bottom: 0.3rem;
+    }
+
+    /* --------------------------------------------------
+       REVEAL ACTION BUTTONS (ALWAYS VISIBLE LOGIC)
+       -------------------------------------------------- */
+    .btn-reveal-container {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .btn-reveal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: var(--ink); /* Elegant dark ink background */
+      color: var(--white); /* White text color */
+      border: 1px solid rgba(255, 255, 255, 0.15); /* Subtle white border */
+      padding: 0.75rem 1.5rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: all 0.25s var(--transition-spring);
+    }
+
+    .btn-reveal:hover {
+      background-color: var(--white); /* Invert to white on hover */
+      color: var(--ink); /* Dark ink text */
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border-color: var(--white);
+    }
+
+    .btn-reveal:active {
+      transform: translateY(-0.5px) scale(0.97);
+    }
+
+    .btn-icon {
+      width: 12px;
+      height: 12px;
+      stroke-width: 3px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    /* --------------------------------------------------
+       SPECIFIC CONTENT STYLING
+       -------------------------------------------------- */
+    
+    /* Audiences (Target Segments Layout) */
+    .audience-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .audience-item {
+      background-color: rgba(255, 255, 255, 0.4); /* Softer white glassmorphic background */
+      border: 1px solid rgba(22, 36, 46, 0.08);
+      border-left: 5px solid #4A89C0; /* Soft Brand Blue instead of strong ink */
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column; /* Stack vertically for a profile card layout */
+      align-items: flex-start;
+      gap: 0.25rem;
+      box-shadow: 0 2px 5px rgba(22, 36, 46, 0.03);
+      position: relative;
+    }
+
+    .audience-badge {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #2C5A85; /* Darker blue text */
+      background-color: rgba(93, 154, 203, 0.18); /* Soft azure backdrop */
+      border: 1px solid rgba(93, 154, 203, 0.35);
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 0.25rem;
+    }
+
+    .audience-title-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .audience-note {
+      font-size: 0.8rem;
+      color: var(--ink);
+      opacity: 0.75;
+      font-weight: 500;
+      line-height: 1.35;
+      margin-top: 0.1rem;
+    }
+
+    /* UNEQUAL AUDIENCES (TME) */
+    .audience-weight-flex {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .audience-item.weight-small {
+      border-left-color: #4A89C0;
+      background-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .audience-item.weight-large {
+      border-left-color: var(--red);
+      background-color: rgba(255, 255, 255, 0.5); /* Keep it light and glassmorphic */
+      box-shadow: 0 4px 12px rgba(203, 43, 28, 0.06);
+    }
+
+    .audience-item.weight-large .audience-badge {
+      background-color: var(--red);
+      color: var(--white) !important;
+    }
+
+
+    .audience-item.weight-large .audience-title-text {
+      font-size: 1.15rem;
+    }
+
+    .volume-bar-container {
+      width: 100%;
+      height: 4px;
+      background-color: rgba(22, 36, 46, 0.08);
+      border-radius: 2px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .volume-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      background-color: var(--ink);
+    }
+
+    .weight-large .volume-bar-fill {
+      background-color: var(--red);
+    }
+
+    .volume-indicator {
+      display: inline-flex;
+      align-items: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      background-color: rgba(22, 36, 46, 0.1);
+      color: var(--ink);
+    }
+    
+    .volume-indicator.large-indicator {
+      background-color: var(--red);
+      color: var(--white);
+    }
+
+    /* Message & Channels (Two levels, no red box) */
+    .pillar-message-container {
+      margin-bottom: 1.25rem;
+    }
+
+    .pillar-message-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+    }
+
+    .pillar-message-sub {
+      font-size: 0.85rem;
+      opacity: 0.85;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .channels-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+      opacity: 0.5;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    /* Channel chip styling with inline SVG */
+    .channel-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: rgba(255, 255, 255, 0.3);
+      color: var(--ink);
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(22, 36, 46, 0.08);
+      transition: all 0.2s ease;
+    }
+
+    .channel-chip:hover {
+      background-color: var(--ink);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    .channels-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .chip-icon {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .channels-grouped {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .channel-group-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .channel-group-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--ink);
+      opacity: 0.7;
+    }
+
+    .channel-group-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background-color: rgba(22, 36, 46, 0.12);
+    }
+
+    /* KPIs Funnel (vs based) */
+    .kpi-funnel {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .kpi-step {
+      background-color: rgba(255, 255, 255, 0.25);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 4px solid var(--ink);
+    }
+
+    .kpi-step-metric {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 0.12rem 0.4rem;
+      border-radius: 4px;
+      background-color: rgba(22, 36, 46, 0.1);
+    }
+    
+    .kpi-arrow-down {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 12px;
+      opacity: 0.4;
+    }
+
+     /* --------------------------------------------------
+        PREMIUM CIRCULAR PROCESS CYCLE SVG
+        -------------------------------------------------- */
+    .svg-cycle-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .svg-cycle {
+      max-width: 440px;
+      height: 320px;
+      width: 100%;
+    }
+
+    .cycle-node {
+      cursor: pointer;
+      outline: none;
+    }
+
+    .cycle-node .node-bg {
+      fill: rgba(255, 255, 255, 0.75);
+      stroke: rgba(22, 36, 46, 0.12);
+      stroke-width: 1.5;
+      transition: all 0.3s var(--transition-spring);
+    }
+
+    .cycle-node .node-dot {
+      fill: var(--ink);
+      transition: all 0.3s var(--transition-spring);
+    }
+
+    .cycle-node .node-number {
+      fill: var(--white);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 10px;
+      text-anchor: middle;
+      dominant-baseline: central;
+      transition: all 0.3s var(--transition-spring);
+    }
+
+    .cycle-node .node-label {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      fill: var(--ink);
+      letter-spacing: -0.01em;
+      transition: all 0.3s var(--transition-spring);
+    }
+
+    /* Hover States */
+    .cycle-node:hover .node-bg {
+      fill: var(--ink);
+      stroke: var(--ink);
+      filter: drop-shadow(0 4px 10px rgba(22, 36, 46, 0.15));
+    }
+
+    .cycle-node:hover .node-dot {
+      fill: var(--red);
+    }
+
+    .cycle-node:hover .node-label {
+      fill: var(--red);
+    }
+
+    /* Track Flow Animations */
+    .track-flow-main {
+      animation: flowMain 12s linear infinite;
+    }
+
+    .track-flow-feedback {
+      animation: flowFeedback 4s linear infinite;
+    }
+
+    @keyframes flowMain {
+      to {
+        stroke-dashoffset: -100;
+      }
+    }
+
+    @keyframes flowFeedback {
+      to {
+        stroke-dashoffset: -100;
+      }
+    }
+
+    @keyframes revealCard {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* --------------------------------------------------
+       CONNECTION ARROW (HOME STATE ONLY)
+       -------------------------------------------------- */
+    .connection-column {
+      flex: 0 0 180px; /* Wider connection column to prevent squeezing */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: opacity var(--transition-speed) var(--transition-spring);
+      z-index: 5;
+    }
+
+    .arrow-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      text-align: center;
+      padding: 1.25rem 1rem;
+      background-color: rgba(255, 255, 255, 0.08);
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      cursor: help;
+      position: relative;
+      animation: floatArrow 4s ease-in-out infinite;
+      box-shadow: var(--shadow-soft);
+    }
+
+    @keyframes floatArrow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .arrow-svg {
+      width: 40px;
+      height: 18px;
+      fill: var(--orange);
+      transition: transform 0.3s var(--transition-spring);
+    }
+
+    .arrow-container:hover .arrow-svg {
+      transform: scaleX(1.15);
+      fill: var(--red);
+    }
+
+    .connection-tooltip {
+      font-size: 0.68rem;
+      font-weight: 500;
+      line-height: 1.35;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Hide connection during focus states */
+    body.state-focus-dmc .connection-column,
+    body.state-focus-tme .connection-column {
+      opacity: 0;
+      pointer-events: none;
+      width: 0;
+      flex: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    /* --------------------------------------------------
+       BASEMENT FOOTER (SHARED FOUNDATION - minimal)
+       -------------------------------------------------- */
+    .basement-minimal {
+      width: 100%;
+      max-width: 1000px;
+      margin: 1.5rem auto 0 auto;
+      padding: 0 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      transition: opacity var(--transition-speed) var(--transition-spring);
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    }
+
+    .basement-title-mini {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.55);
+      letter-spacing: -0.01em;
+    }
+
+    .basement-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .basement-pill {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.4rem 0.85rem;
+      border-radius: 20px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.75);
+      transition: all 0.3s ease;
+    }
+
+    .basement-pill:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    /* Recede basement during focus states */
+    body.state-focus-dmc .basement-minimal,
+    body.state-focus-tme .basement-minimal {
+      opacity: 0.1;
+    }
+    body.state-focus-dmc .basement-minimal:hover,
+    body.state-focus-tme .basement-minimal:hover {
+      opacity: 0.6;
+    }
+
+    /* --------------------------------------------------
+       MOBILE LAYOUT (< 760PX)
+       -------------------------------------------------- */
+    @media (max-width: 760px) {
+      .brand-header {
+        padding: 2rem 1.5rem 0.5rem 1.5rem;
+      }
+
+      .brand-logo {
+        height: 40px;
+      }
+
+      main {
+        padding: 1rem;
+        gap: 1rem;
+      }
+
+      .canvas-layout {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .engine-card {
+        min-height: auto;
+        padding: 1.5rem;
+        max-width: 100%;
+        width: 100%;
+      }
+
+      /* Home state stacked arrow pointing down */
+      .connection-column {
+        flex: 0 0 auto;
+        width: 100%;
+        margin: 0.25rem 0;
+      }
+
+      .arrow-container {
+        flex-direction: row;
+        text-align: left;
+        padding: 0.85rem 1.15rem;
+      }
+
+      .arrow-svg {
+        transform: rotate(90deg);
+        width: 24px;
+        height: 24px;
+      }
+
+      .arrow-container:hover .arrow-svg {
+        transform: rotate(90deg) scale(1.1);
+      }
+
+      .basement-pills-row {
+        gap: 0.4rem;
+      }
+
+      .basement-pill {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.75rem;
+      }
+
+      /* MOBILE FOCUS ANIMATIONS */
+      body.state-focus-dmc .engine-card[data-engine="dmc"],
+      body.state-focus-tme .engine-card[data-engine="tme"] {
+        flex: 1 0 auto;
+        max-width: 100%;
+      }
+
+      /* Receded engine card becomes a small interactive bar at the top */
+      body.state-focus-dmc .engine-card[data-engine="tme"],
+      body.state-focus-tme .engine-card[data-engine="dmc"] {
+        flex: 0 0 auto;
+        transform: scale(1);
+        opacity: 1;
+        min-height: auto;
+        padding: 0.75rem 1.1rem;
+        margin-bottom: 0.25rem;
+        max-height: none;
+        order: -1; /* place on top */
+      }
+
+      /* Hide content for the receded mobile bar */
+      body.state-focus-dmc .engine-card[data-engine="tme"] .engine-subtitle,
+      body.state-focus-dmc .engine-card[data-engine="tme"] .engine-objective,
+      body.state-focus-dmc .engine-card[data-engine="tme"] .reveal-stack,
+      body.state-focus-dmc .engine-card[data-engine="tme"] .btn-reveal-container,
+      body.state-focus-tme .engine-card[data-engine="dmc"] .engine-subtitle,
+      body.state-focus-tme .engine-card[data-engine="dmc"] .engine-objective,
+      body.state-focus-tme .engine-card[data-engine="dmc"] .reveal-stack,
+      body.state-focus-tme .engine-card[data-engine="dmc"] .btn-reveal-container {
+        display: none;
+      }
+
+      body.state-focus-dmc .engine-card[data-engine="tme"] .engine-header,
+      body.state-focus-tme .engine-card[data-engine="dmc"] .engine-header {
+        margin-bottom: 0;
+      }
+
+      body.state-focus-dmc .engine-card[data-engine="tme"] .engine-title::before,
+      body.state-focus-tme .engine-card[data-engine="dmc"] .engine-title::before {
+        content: '◄ Switch focus to: ';
+        font-size: 0.68rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        display: block;
+        opacity: 0.7;
+      }
+
+      body.state-focus-dmc .engine-card[data-engine="tme"] .engine-title,
+      body.state-focus-tme .engine-card[data-engine="dmc"] .engine-title {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* --------------------------------------------------
+       UI UX PRO MAX ACCESSIBILITY & MOTION GUIDELINES
+       -------------------------------------------------- */
+    
+    /* Active Card Header Interactive Hover */
+    body.state-focus-dmc .engine-card[data-engine="dmc"] .engine-header,
+    body.state-focus-tme .engine-card[data-engine="tme"] .engine-header {
+      cursor: pointer;
+    }
+    
+    body.state-focus-dmc .engine-card[data-engine="dmc"] .engine-header:hover,
+    body.state-focus-tme .engine-card[data-engine="tme"] .engine-header:hover {
+      opacity: 0.82;
+    }
+
+    /* Keyboard Focus Rings for WCAG Compliance */
+    .engine-card:focus-visible,
+    .btn-reveal:focus-visible,
+    .arrow-container:focus-visible {
+      outline: 3px solid var(--white);
+      outline-offset: 4px;
+    }
+
+    /* Respect User prefers-reduced-motion Preference */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-delay: 0s !important;
+        animation-duration: 0s !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0s !important;
+        scroll-behavior: auto !important;
+      }
+      .arrow-container {
+        animation: none !important;
+      }
+      .flow-line, .flow-line-curve {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="state-home">
+
+  <!-- --------------------------------------------------
+       CENTERED BRAND LOGO & TITLE
+       -------------------------------------------------- -->
+  <header class="brand-header">
+    <img class="brand-logo" alt="SIT Logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAAA/CAYAAACYcSQcAAAHW0lEQVR4nO2cf4xcVRXHP+fNdmdLF2mttXRKtcbSghUohkqUKhUTS0tjq9FYU0yoUUw0RmMif6hNFwR/BTESTUw0YmM1CGJsgF1KIAXlh9rS+gNLDEZ+WCapLNutrbs7v97X3Jm32zev7+2vzL7d2c43uXvnnnvfe3e/c+6955x73xjTDHXhsZqr6GQT57KO88jxehYzj2U2n+M0Adqm68H6IZ1+hhvVwRdNLKsKLUhNhmkhsXx7ZqNf0W7L+IuYBfDSfmDh2+23yKxbMDqBQjQJUtXEwjfbtxvaOUoTH/EExhH6GaJJkBqJp74z73wrl36SUP0fjO+SYbddwjGaDKmR2FYq3yyjI2bd6MVjnV3L8zQpUpkTdSdZgxvi6gy22Ueal8DUSCycyF4NtMdUHbIbeJQmRyokmtl74uQSv2EWIJ3hDEsSHn6QWYCUNFEL4isoMwuQzuos5sa5czLu8O/iuM0DzgVeF6SF1Z5ttjdyiiZAWiaOxUrFpWfUuLLzVdqZQ5MgdbdvNqJFYgPQIrEBaJHYALRIbABaJDYALRIbgBaJDUCLxAagRWID0CKxAbBfLl/SMyfD3A7PI+tBu8ej65975etJFxxYfcFNiE0Tech5ywu7l73r5AttVU+9XPPYO8pUyx1AZyjNB94An3tyzRfazF+QbRMdnpiT8cmay2sp6/lkMz7t5tPu8kyFNvOHzHRMsrxhhy1bfnDDZcf+xxSjreDzFmCVKdihVDUEkEgiYhWGi1SPGydeav/Byu6hxyZyzWfv4W4yttgFIyRhMmSuAK6vrrfVLofHkgXdr+ZCxUz5oQO5B3y4ZdPa/GGmCF7J14tFXxRcqkBBXLl//SjRHU+pnFHwg/z0d3s6rxIVEtRksWgTbDU41HMwt6f7+RXZqeirV5SecSSWThOZPXV0yccSr/CdOqQLJckDAmuwEcITbrLd+gce2feXxS562VB4pTL7Sz7UE2nf/+1bc7XzMdMIJZSjmuc0c5zf7Dq/mEna+540vBOZzFNFX4PFMJHSwjLa17Mqt4ppgury01oW1rbhugliW8+B3DYaCK8rnx8YqOiuoYpwaXA4L3PxyZKe3bsit6dn5dL3u/m82vGU5sSwyoWHbFU8Igg0MGhX8Zi3cW3ePPEm4GYRf5pC2FdpIKprmy/dWfIlp41OE4vDqUJboaLtBV+PPLQy5++/aKlKPjvSnBSVOITP/DxY9KofN7wz/++Na/NdzD/nzWb8OHpPQ2/vOZhb11ASd/b2/qNY0a4aeREi3TCvuLkShoJypU47pg4jz6hbievnv/phX49NF/6zcO0V+Rsx7omp3tKofo5YWbv6em8tVfTgeIgsSFNOpMYoh2VjzY1DmfbPQOTUrc/7aBDCpqrU17u1WNHdI0QqhkhnSwZEllPQSCVo26jmTAQfuvzFfoy9dULj8vsP5s5puO/cBeWuvt6PF8tcV6zwx2IlSmQtDRNZnEoiNYq4+qc2rKtkjqMPEr+PiLx208WN6GqsZ9J1/NVuoPu2RYvWGN5mMlzt3FbnRri1ueoiVmr8qzqXW/VGSQPq4YVrO6Wj6yfSsU/f+44/IOdJ1+hR1Sio2Qg1z3RYG12HnNDoXNQx7OicAckOmfF4WOZXzHnqzQFJ92viaJrz3K1QWAPQIrEBaJHYzC8DTQaSXDDYHRi9AFgcOn2bB/4G7Daz/CjXfy3yPx8xsxFDXNJNwETNnsTFbEYtLJLeJunwOK7pl7RjlH5E8etIfe8k+qkZr4mSNgL3AsNxwF7gV8CfgH5gDTAX2ApcBPxUUs7MbpvE45wrGD7StwLO8L2/Ajwd7iIzWRMlLY/I9ktKtO0kXS/pSUnfmIwmxrRfE3PN5mi7ma6J2yPlT5mZ075YmNkeYI8kFwpLDTN9dV4SKY9r6JjZy6SImU5iX6R8BzMQM53Enkh5i6THJLkFZMYgrTnxr8H7AXF4d2RFHIZvZk9Lehj4QEju9ryfk3QE+JaZ/ZyzHZJei1uag7CNq18QrLhJeFnSjyS9dxzPmpLVeVqHsyQvQUP73BtE7oOZHTezqwBntsS91+K2dl3k+nFJzkZ0B1POqjnx0oSh/EpUYFbdoVsKfBk4mnC/HTHz6Kwn8foE+e/ihGb2XzO73cyc9l0J3Br4zWGsl/R5zgZIOl/SQMI8N+6dOOfBSHJDOYw/z/o5UZKLvvwi8HmjeGkiQzLwYK4DXg2JLyNFpEqipKykjwJPANckNNtpZsWJ3NfM3ILzDLPZTpT0ySBCck1wlDMJ9xk4/3cyCBvgscO52TVxC/DBMQh0L5B/Yti0cZD0YWnsbc0garM8Eq6adR6LN0pdxXke7gCSmZUidS4ac5+kp4AHAg0bDOqcaXSFOy7nToyErtllZqmaOdMZChsEfgY4k+VfCW1eCLmGLo2FL5nZ90gZaZE4EESD/w64s9OHnFaZ2ai/wmRmeyU5TdsArAYuBC4Jqk8Gmunu9yywbxwhMPfrUHV7LGO0dwtW3YY/8Fq00f8BECQiD+VWWqYAAAAASUVORK5CYII=">
+    <h1 class="brand-title">Special Interest Travel</h1>
+    <span class="brand-subtitle">Strategic Group Dashboard</span>
+  </header>
+
+  <!-- --------------------------------------------------
+       MAIN CANVAS CONTAINER
+       -------------------------------------------------- -->
+  <main id="mainCanvas">
+    <div class="canvas-layout" id="canvasLayout">
+
+      <!-- DMC CARD (LEFT) -->
+      <section class="engine-card" data-engine="dmc" id="cardDMC" aria-expanded="false" tabindex="0">
+        <div class="engine-header">
+          <h2 class="engine-title">SIT — Special Interest Travel (DMC)</h2>
+          <span class="engine-subtitle">The trust engine · B2B</span>
+          <p class="engine-objective">Generate qualified B2B pipeline that feeds sales and revenue.</p>
+        </div>
+
+        <!-- REVEAL STACK -->
+        <div class="reveal-stack" id="stackDMC" aria-live="polite">
+          <!-- Step 1: Audiences -->
+          <div class="reveal-level" data-step="1">
+            <h3 class="level-header">Who we speak to</h3>
+            <ul class="audience-list">
+              <li class="audience-item">
+                <span class="audience-badge">Target Segment 01 · B2B MICE</span>
+                <span class="audience-title-text">MICE planners & event agencies</span>
+                <span class="audience-note">incl. incentive houses, PCOs</span>
+              </li>
+              <li class="audience-item">
+                <span class="audience-badge">Target Segment 02 · B2B Leisure</span>
+                <span class="audience-title-text">Leisure tour operators</span>
+                <span class="audience-note">France first &rarr; China / Japan / Italy / Spain</span>
+              </li>
+              <li class="audience-item">
+                <span class="audience-badge">Target Segment 03 · B2B Direct</span>
+                <span class="audience-title-text">Corporates & associations</span>
+                <span class="audience-note">Direct marketing & outreach</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Step 2: Cycle (Sleek horizontal loop SVG pipeline) -->
+          <div class="reveal-level" data-step="2">
+            <h3 class="level-header">The lead cycle</h3>
+            <div class="svg-cycle-container">
+              <svg class="svg-cycle" viewBox="0 0 440 320" width="100%" height="320" aria-label="B2B Lead cycle circular pipeline flow">
+                <defs>
+                  <marker id="cycleRedArrowHeadB2B" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 10 2 L 3 5 L 10 8 z" fill="var(--red)"/>
+                  </marker>
+                </defs>
+
+                <!-- Central Indicator -->
+                <circle cx="220" cy="140" r="32" fill="rgba(22, 36, 46, 0.04)" stroke="rgba(22, 36, 46, 0.08)" stroke-width="1.5" stroke-dasharray="2, 4" />
+                <text x="220" y="136" font-family="Outfit" font-weight="800" font-size="9" fill="var(--ink)" text-anchor="middle">LEAD</text>
+                <text x="220" y="148" font-family="Outfit" font-weight="800" font-size="9" fill="var(--ink)" text-anchor="middle">CYCLE</text>
+
+                <!-- Background Track Circle -->
+                <circle cx="220" cy="140" r="85" fill="none" stroke="var(--ink)" stroke-width="2" opacity="0.1" />
+
+                <!-- Main Flowing Track (Steps 1 -> 5) -->
+                <path d="M 220,55 A 85,85 0 1,1 139,114" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-main" />
+
+                <!-- Feedback Flowing Track (Step 5 -> 1) -->
+                <path d="M 139,114 A 85,85 0 0,1 205,58" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-feedback" marker-end="url(#cycleRedArrowHeadB2B)" />
+
+
+
+                <!-- Nodes -->
+                <!-- Step 1: Reach -->
+                <g class="cycle-node" tabindex="0" aria-label="Step 1: Reach">
+                  <circle cx="220" cy="60" r="18" class="node-bg" />
+                  <circle cx="220" cy="60" r="12" class="node-dot" />
+                  <text x="220" y="60" class="node-number">1</text>
+                  <text x="220" y="32" class="node-label" text-anchor="middle">Reach</text>
+                </g>
+
+                <!-- Step 2: Capture -->
+                <g class="cycle-node" tabindex="0" aria-label="Step 2: Capture">
+                  <circle cx="301" cy="114" r="18" class="node-bg" />
+                  <circle cx="301" cy="114" r="12" class="node-dot" />
+                  <text x="301" y="114" class="node-number">2</text>
+                  <text x="326" y="118" class="node-label" text-anchor="start">Capture</text>
+                </g>
+
+                <!-- Step 3: Nurture -->
+                <g class="cycle-node" tabindex="0" aria-label="Step 3: Nurture">
+                  <circle cx="270" cy="209" r="18" class="node-bg" />
+                  <circle cx="270" cy="209" r="12" class="node-dot" />
+                  <text x="270" y="209" class="node-number">3</text>
+                  <text x="288" y="244" class="node-label" text-anchor="start">Nurture</text>
+                </g>
+
+                <!-- Step 4: SQL -->
+                <g class="cycle-node" tabindex="0" aria-label="Step 4: SQL">
+                  <circle cx="170" cy="209" r="18" class="node-bg" />
+                  <circle cx="170" cy="209" r="12" class="node-dot" />
+                  <text x="170" y="209" class="node-number">4</text>
+                  <text x="152" y="244" class="node-label" text-anchor="end">SQL</text>
+                </g>
+
+                <!-- Step 5: Win -->
+                <g class="cycle-node" tabindex="0" aria-label="Step 5: Win">
+                  <circle cx="139" cy="114" r="18" class="node-bg" />
+                  <circle cx="139" cy="114" r="12" class="node-dot" />
+                  <text x="139" y="114" class="node-number">5</text>
+                  <text x="114" y="118" class="node-label" text-anchor="end">Win</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Step 3: Message & Channels (Two levels) -->
+          <div class="reveal-level" data-step="3">
+            <div class="pillar-message-container">
+              <span class="channels-title" style="margin-bottom: 0.25rem;">The Pillar Message</span>
+              <h4 class="pillar-message-text">"We take the risk out of your event."</h4>
+              <p class="pillar-message-sub">Security · low risk · resolved complexity · 45 years of flawless execution.</p>
+            </div>
+            
+            <span class="channels-title">The Channels</span>
+            <div class="channels-container">
+              <span class="channel-chip">
+                <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+                Buyer-intent SEO
+              </span>
+              <span class="channel-chip">
+                <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10zM2 12h20" stroke-linecap="round"/></svg>
+                Trade networks
+              </span>
+              <span class="channel-chip">
+                <svg class="chip-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                LinkedIn & ABM
+              </span>
+              <span class="channel-chip">
+                <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke-linecap="round"/></svg>
+                Trade shows / fam trips
+              </span>
+              <span class="channel-chip">
+                <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke-linecap="round"/></svg>
+                Referrals
+              </span>
+            </div>
+          </div>
+
+          <!-- Step 4: KPIs -->
+          <div class="reveal-level" data-step="4">
+            <h3 class="level-header">KPIs</h3>
+            <div class="kpi-funnel">
+              <div class="kpi-step">
+                <span>Website visit</span>
+                <span style="opacity: 0.5;">vs</span>
+                <span>Enquiry</span>
+                <span class="kpi-step-metric">Enquiry Rate</span>
+              </div>
+              <div class="kpi-arrow-down">
+                <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+              </div>
+              <div class="kpi-step">
+                <span>Enquiry</span>
+                <span style="opacity: 0.5;">vs</span>
+                <span>MQL</span>
+                <span class="kpi-step-metric">MQL Conv.</span>
+              </div>
+              <div class="kpi-arrow-down">
+                <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+              </div>
+              <div class="kpi-step">
+                <span>MQL</span>
+                <span style="opacity: 0.5;">vs</span>
+                <span>SQL</span>
+                <span class="kpi-step-metric">SQL Conv.</span>
+              </div>
+              <div class="kpi-arrow-down">
+                <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+              </div>
+              <div class="kpi-step">
+                <span>SQL</span>
+                <span style="opacity: 0.5;">vs</span>
+                <span>Won deal</span>
+                <span class="kpi-step-metric">Closing Rate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- REVEAL BUTTON -->
+        <div class="btn-reveal-container">
+          <button class="btn-reveal" id="btnRevealDMC" aria-controls="stackDMC">
+            <svg class="btn-icon" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Show who we speak to
+          </button>
+        </div>
+      </section>
+
+      <!-- CONNECTION ARROW -->
+      <div class="connection-column" id="connectionArrow">
+        <div class="arrow-container" title="Strategic feedback loop explanation" tabindex="0">
+          <svg class="arrow-svg" viewBox="0 0 60 24">
+            <path d="M 0 10 L 45 10 L 41 4 L 56 12 L 41 20 L 45 14 L 0 14 Z" />
+          </svg>
+          <div class="connection-tooltip">
+            Groups delivered by the DMC become high-margin, zero-cost visitors to The Malta Experience.
+          </div>
+        </div>
+      </div>
+
+      <!-- THE MALTA EXPERIENCE CARD (RIGHT) -->
+      <section class="engine-card" data-engine="tme" id="cardTME" aria-expanded="false" tabindex="0">
+        <div class="engine-header">
+          <h2 class="engine-title">The Malta Experience</h2>
+          <span class="engine-subtitle">The demand engine · B2C / e-commerce</span>
+          <p class="engine-objective">Capture existing tourist demand and win direct bookings — recover margin from OTAs and fill the show.</p>
+        </div>
+
+        <!-- REVEAL STACK -->
+        <div class="reveal-stack" id="stackTME" aria-live="polite">
+          <!-- Step 1: Audiences -->
+          <div class="reveal-level" data-step="1">
+            <h3 class="level-header">Who we speak to</h3>
+            <div class="audience-weight-flex">
+              <div class="audience-item weight-small">
+                <span class="audience-badge">Target Segment 01 · B2B Base (15% load)</span>
+                <span class="audience-title-text">Groups from the DMC</span>
+                <span class="audience-note">Predictable base load · ~zero acquisition cost · in-group margin</span>
+                <div class="volume-bar-container"><div class="volume-bar-fill" style="width: 15%;"></div></div>
+              </div>
+              
+              <div class="audience-item weight-large">
+                <span class="audience-badge" style="background-color: var(--red);">Target Segment 02 · B2C FIT (85% volume)</span>
+                <span class="audience-title-text">Independent tourists (FIT)</span>
+                <span class="audience-note">The real volume driver · including cruise passengers & independent leisure travelers</span>
+                <div class="volume-bar-container"><div class="volume-bar-fill" style="width: 85%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Cycle (Minimalist pipeline flow) -->
+          <div class="reveal-level" data-step="2">
+            <h3 class="level-header">The visitor cycle</h3>
+            <div class="svg-cycle-container">
+              <svg class="svg-cycle" viewBox="0 0 440 320" width="100%" height="320" aria-label="B2C Visitor cycle circular pipeline flow">
+                <defs>
+                  <marker id="cycleRedArrowHeadB2C" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 10 2 L 3 5 L 10 8 z" fill="var(--red)"/>
+                  </marker>
+                </defs>
+
+                <!-- Central Indicator -->
+                <circle cx="220" cy="140" r="32" fill="rgba(22, 36, 46, 0.04)" stroke="rgba(22, 36, 46, 0.08)" stroke-width="1.5" stroke-dasharray="2, 4" />
+                <text x="220" y="136" font-family="Outfit" font-weight="800" font-size="9" fill="var(--ink)" text-anchor="middle">VISITOR</text>
+                <text x="220" y="148" font-family="Outfit" font-weight="800" font-size="9" fill="var(--ink)" text-anchor="middle">CYCLE</text>
+
+                <!-- Background Track Circle -->
+                <circle cx="220" cy="140" r="85" fill="none" stroke="var(--ink)" stroke-width="2" opacity="0.1" />
+
+                <!-- Main Flowing Track (Steps 1 -> 4) -->
+                <path d="M 220,55 A 85,85 0 1,1 135,140" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-main" />
+
+                <!-- Feedback Flowing Track (Step 4 -> 1) -->
+                <path d="M 135,140 A 85,85 0 0,1 205,58" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-feedback" marker-end="url(#cycleRedArrowHeadB2C)" />
+
+
+
+                <!-- Nodes -->
+                <!-- Step 1: Capture -->
+                <g class="cycle-node" tabindex="0" aria-label="Step 1: Capture">
+                  <circle cx="220" cy="60" r="18" class="node-bg" />
+                  <circle cx="220" cy="60" r="12" class="node-dot" />
+                  <text x="220" y="60" class="node-number">1</text>
+                  <text x="220" y="32" class="node-label" text-anchor="middle">Capture</text>
+                </g>
+
+                <!-- Step 2: Convert -->
+                <g class="cycle-node" tabindex="0" aria-label="Step 2: Convert">
+                  <circle cx="305" cy="140" r="18" class="node-bg" />
+                  <circle cx="305" cy="140" r="12" class="node-dot" />
+                  <text x="305" y="140" class="node-number">2</text>
+                  <text x="332" y="144" class="node-label" text-anchor="start">Convert</text>
+                </g>
+
+                <!-- Step 3: Fill Show -->
+                <g class="cycle-node" tabindex="0" aria-label="Step 3: Fill Show">
+                  <circle cx="220" cy="225" r="18" class="node-bg" />
+                  <circle cx="220" cy="225" r="12" class="node-dot" />
+                  <text x="220" y="225" class="node-number">3</text>
+                  <text x="220" y="260" class="node-label" text-anchor="middle">Fill Show</text>
+                </g>
+
+                <!-- Step 4: Retain -->
+                <g class="cycle-node" tabindex="0" aria-label="Step 4: Retain">
+                  <circle cx="135" cy="140" r="18" class="node-bg" />
+                  <circle cx="135" cy="140" r="12" class="node-dot" />
+                  <text x="135" y="140" class="node-number">4</text>
+                  <text x="108" y="144" class="node-label" text-anchor="end">Retain</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Step 3: Message & Channels -->
+          <div class="reveal-level" data-step="3">
+            <div class="pillar-message-container">
+              <span class="channels-title" style="margin-bottom: 0.25rem;">The Pillar Message</span>
+              <h4 class="pillar-message-text">"Understand 7,000 years of Malta in 45 minutes — the first thing to do, in 17 languages, booked in one tap."</h4>
+              <p class="pillar-message-sub">Desire + ease — not security. Skip-the-queue · guaranteed seat · best price direct.</p>
+            </div>
+            
+            <div class="channels-grouped">
+              <div class="channel-group-row">
+                <span class="channels-title">The Channels</span>
+                <span class="channel-group-label">Aware demand</span>
+                <div class="channels-container">
+                  <span class="channel-chip">
+                    <svg class="chip-icon" viewBox="0 0 24 24"><path d="M12.24 10.285V13.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.859-3.578-7.859-8s3.53-8 7.859-8c2.46 0 4.105 1.025 5.047 1.926l2.427-2.334C17.955 2.192 15.34 1 12.24 1 6.033 1 1 6.033 1 12.24s5.033 11.24 11.24 11.24c6.478 0 10.793-4.537 10.793-10.997 0-.746-.08-1.32-.176-1.898H12.24z"/></svg>
+                    Google (Search · Maps · SEO)
+                  </span>
+                </div>
+              </div>
+              <div class="channel-group-row">
+                <span class="channel-group-label">Latent demand</span>
+                <div class="channels-container">
+                  <span class="channel-chip">
+                    <svg class="chip-icon" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    Meta Ads
+                  </span>
+                  <span class="channel-chip">
+                    <svg class="chip-icon" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.2-.43-.43-.63-.67-.07 2.62-.04 5.24-.05 7.86-.1 2.2-1.04 4.39-2.77 5.74-2.11 1.77-5.18 2.2-7.65 1.15-2.92-1.12-4.88-4.32-4.56-7.5.21-2.9 2.22-5.54 5.09-6.2 1.05-.27 2.14-.26 3.2-.02V13.2c-.75-.24-1.6-.28-2.33-.02-1.33.42-2.19 1.87-1.91 3.25.21 1.19 1.34 2.1 2.54 1.95 1.19-.1 2.07-1.19 2.05-2.39V.02z"/></svg>
+                    TikTok
+                  </span>
+                </div>
+              </div>
+            </div>
+            <span class="ota-note">Note: OTAs = reach, not the goal.</span>
+          </div>
+
+          <!-- Step 4: KPIs -->
+          <div class="reveal-level" data-step="4">
+            <h3 class="level-header">KPIs</h3>
+            <div class="kpi-funnel">
+              <div class="kpi-step">
+                <span>Website visit</span>
+                <span style="opacity: 0.5;">vs</span>
+                <span>Add to cart</span>
+                <span class="kpi-step-metric">Add-to-Cart %</span>
+              </div>
+              <div class="kpi-arrow-down">
+                <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+              </div>
+              <div class="kpi-step">
+                <span>Add to cart</span>
+                <span style="opacity: 0.5;">vs</span>
+                <span>Checkout</span>
+                <span class="kpi-step-metric">Checkout conv.</span>
+              </div>
+              <div class="kpi-arrow-down">
+                <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+              </div>
+              <div class="kpi-step">
+                <span>Checkout</span>
+                <span style="opacity: 0.5;">vs</span>
+                <span>Purchase</span>
+                <span class="kpi-step-metric">Purchase conv.</span>
+              </div>
+              <div class="kpi-arrow-down">
+                <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+              </div>
+              <div class="kpi-step" style="border-left-color: var(--red);">
+                <span>Direct</span>
+                <span style="opacity: 0.5;">vs</span>
+                <span>OTA booking mix</span>
+                <span class="kpi-step-metric" style="background-color: var(--red); color: var(--white);">OTA Margin recovery</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- REVEAL BUTTON -->
+        <div class="btn-reveal-container">
+          <button class="btn-reveal" id="btnRevealTME" aria-controls="stackTME">
+            <svg class="btn-icon" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Show who we speak to
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- --------------------------------------------------
+       BASEMENT FOUNDATION (MINIMAL PILLS ROW ON CANVAS)
+       -------------------------------------------------- -->
+  <footer class="basement-minimal" id="basementMinimal">
+    <h3 class="basement-title-mini">Built once, owned by the Group</h3>
+  </footer>
+
+  <!-- --------------------------------------------------
+       INTERACTIVE SCRIPT (STATE MACHINE)
+       -------------------------------------------------- -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      
+      // DOM Elements
+      const body = document.body;
+      const cardDMC = document.getElementById("cardDMC");
+      const cardTME = document.getElementById("cardTME");
+      const btnRevealDMC = document.getElementById("btnRevealDMC");
+      const btnRevealTME = document.getElementById("btnRevealTME");
+
+      // State Trackers
+      let activeEngine = null; // 'dmc', 'tme', or null
+      let dmcStep = 0; // 0 to 4
+      let tmeStep = 0; // 0 to 4
+
+      // Reveal Button copy lists
+      const revealLabels = [
+        "Show who we speak to",
+        "Show the cycle",
+        "Show what we say & where",
+        "Show the numbers"
+      ];
+
+      // --------------------------------------------------
+      // CORE NAVIGATION FUNCTIONS
+      // --------------------------------------------------
+      
+      // Enter Focus State
+      function enterFocus(engine) {
+        if (activeEngine === engine) return;
+
+        // Clean previous states
+        resetEngineSteps('dmc');
+        resetEngineSteps('tme');
+
+        activeEngine = engine;
+        body.className = `state-focus-${engine}`;
+
+        if (engine === 'dmc') {
+          cardDMC.setAttribute('aria-expanded', 'true');
+          cardTME.setAttribute('aria-expanded', 'false');
+          dmcStep = 0;
+          updateRevealButton('dmc');
+        } else {
+          cardTME.setAttribute('aria-expanded', 'true');
+          cardDMC.setAttribute('aria-expanded', 'false');
+          tmeStep = 0;
+          updateRevealButton('tme');
+        }
+        
+        // Smoothly scroll to active engine header on mobile
+        if (window.innerWidth <= 760) {
+          const activeCard = engine === 'dmc' ? cardDMC : cardTME;
+          setTimeout(() => {
+            activeCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 150);
+        }
+      }
+
+      // Exit Focus (Back to Home)
+      function exitFocus() {
+        if (!activeEngine) return;
+
+        resetEngineSteps('dmc');
+        resetEngineSteps('tme');
+        
+        activeEngine = null;
+        body.className = 'state-home';
+        cardDMC.setAttribute('aria-expanded', 'false');
+        cardTME.setAttribute('aria-expanded', 'false');
+
+        // Reset scroll position to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Reset levels inside an engine card
+      function resetEngineSteps(engine) {
+        const stack = engine === 'dmc' ? 'DMC' : 'TME';
+        const levels = document.querySelectorAll(`#stack${stack} .reveal-level`);
+        levels.forEach(lvl => lvl.classList.remove('is-active'));
+        
+        const button = engine === 'dmc' ? btnRevealDMC : btnRevealTME;
+        button.style.display = 'inline-flex'; // Always reset to visible!
+        
+        if (engine === 'dmc') {
+          dmcStep = 0;
+          updateRevealButton('dmc');
+        } else {
+          tmeStep = 0;
+          updateRevealButton('tme');
+        }
+      }
+
+      // --------------------------------------------------
+      // REVEAL SYSTEM
+      // --------------------------------------------------
+
+      // Progressively reveal next step
+      function revealNextStep(engine) {
+        let currentStep;
+        let stackPrefix;
+        let button;
+
+        if (engine === 'dmc') {
+          dmcStep++;
+          currentStep = dmcStep;
+          stackPrefix = 'DMC';
+          button = btnRevealDMC;
+        } else {
+          tmeStep++;
+          currentStep = tmeStep;
+          stackPrefix = 'TME';
+          button = btnRevealTME;
+        }
+
+        const targetLevel = document.querySelector(`#stack${stackPrefix} .reveal-level[data-step="${currentStep}"]`);
+        
+        if (targetLevel) {
+          targetLevel.classList.add('is-active');
+
+          // Move the button to the bottom of the newly revealed card
+          const btnContainer = button.parentElement;
+          targetLevel.appendChild(btnContainer);
+
+          updateRevealButton(engine);
+
+          // Smooth scroll to target
+          setTimeout(() => {
+            targetLevel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 50);
+        }
+      }
+
+      // Update button copy or hide if done
+      function updateRevealButton(engine) {
+        const step = engine === 'dmc' ? dmcStep : tmeStep;
+        const button = engine === 'dmc' ? btnRevealDMC : btnRevealTME;
+        const initialParent = engine === 'dmc' ? cardDMC : cardTME;
+
+        if (step < 4) {
+          button.style.display = 'inline-flex';
+          button.innerHTML = `
+            <svg class="btn-icon" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            ${revealLabels[step]}
+          `;
+        } else {
+          button.style.display = 'none';
+        }
+
+        // Return button container to initial card bottom when resetting to Step 0
+        if (step === 0) {
+          const btnContainer = button.parentElement;
+          initialParent.appendChild(btnContainer);
+        }
+      }
+
+      // --------------------------------------------------
+      // EVENT LISTENERS & TRIGGERS
+      // --------------------------------------------------
+
+      // Click on DMC Card
+      cardDMC.addEventListener("click", (e) => {
+        if (body.className === 'state-home') {
+          e.stopPropagation();
+          enterFocus('dmc');
+        } else if (body.className === 'state-focus-tme') {
+          e.stopPropagation();
+          enterFocus('dmc'); // Swapping focus
+        }
+      });
+
+      // Click on TME Card
+      cardTME.addEventListener("click", (e) => {
+        if (body.className === 'state-home') {
+          e.stopPropagation();
+          enterFocus('tme');
+        } else if (body.className === 'state-focus-dmc') {
+          e.stopPropagation();
+          enterFocus('tme'); // Swapping focus
+        }
+      });
+
+      // Keyboard accessibility
+      cardDMC.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          if (body.className === 'state-home' || body.className === 'state-focus-tme') {
+            enterFocus('dmc');
+          }
+        }
+      });
+
+      cardTME.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          if (body.className === 'state-home' || body.className === 'state-focus-dmc') {
+            enterFocus('tme');
+          }
+        }
+      });
+
+      // Click on reveal buttons
+      btnRevealDMC.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (body.className === 'state-home') {
+          enterFocus('dmc');
+        }
+        revealNextStep('dmc');
+      });
+
+      btnRevealTME.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (body.className === 'state-home') {
+          enterFocus('tme');
+        }
+        revealNextStep('tme');
+      });
+
+      // Click on background canvas or active card header to exit focus
+      document.addEventListener("click", (e) => {
+        if (!activeEngine) return;
+
+        // Click is outside both card containers
+        const isClickOutside = !cardDMC.contains(e.target) && !cardTME.contains(e.target);
+
+        // Click is inside active card but on the header space (not inside stack or button container)
+        const activeCard = activeEngine === 'dmc' ? cardDMC : cardTME;
+        
+        const stack = activeCard.querySelector('.reveal-stack');
+        const btnContainer = activeCard.querySelector('.btn-reveal-container');
+        
+        const isClickOnActiveHeader = activeCard.contains(e.target) && 
+                                      (!stack || !stack.contains(e.target)) && 
+                                      (!btnContainer || !btnContainer.contains(e.target));
+
+        if (isClickOutside || isClickOnActiveHeader) {
+          exitFocus();
+        }
+      });
+
+      // Keyboard Escape key to exit focus
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && activeEngine) {
+          exitFocus();
+        }
+      });
+
+    });
+  </script>
+</body>
+</html>
