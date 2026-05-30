@@ -114,11 +114,12 @@
 
     .brand-subtitle {
       font-family: 'Outfit', sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.82rem;
       color: var(--blue);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      margin-top: 0.2rem;
     }
 
     /* --------------------------------------------------
@@ -491,19 +492,26 @@
     .audience-weight-flex {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.25rem;
       width: 100%;
     }
 
     .audience-item.weight-small {
       border-left-color: #4A89C0;
-      background-color: rgba(255, 255, 255, 0.35);
+      background-color: rgba(255, 255, 255, 0.32);
+      padding: 0.75rem 1.1rem;
+      transform: scale(0.95);
+      transform-origin: center;
+      opacity: 0.85;
     }
 
     .audience-item.weight-large {
       border-left-color: var(--red);
-      background-color: rgba(255, 255, 255, 0.5); /* Keep it light and glassmorphic */
-      box-shadow: 0 4px 12px rgba(203, 43, 28, 0.06);
+      background-color: rgba(255, 255, 255, 0.55); /* Keep it light and glassmorphic */
+      box-shadow: 0 6px 16px rgba(203, 43, 28, 0.08);
+      padding: 1.35rem 1.6rem;
+      transform: scale(1.03);
+      transform-origin: center;
     }
 
     .audience-item.weight-large .audience-badge {
@@ -511,9 +519,12 @@
       color: var(--white) !important;
     }
 
+    .audience-item.weight-small .audience-title-text {
+      font-size: 0.95rem;
+    }
 
     .audience-item.weight-large .audience-title-text {
-      font-size: 1.15rem;
+      font-size: 1.22rem;
     }
 
     .volume-bar-container {
@@ -1079,12 +1090,11 @@
 
   <!-- --------------------------------------------------
        CENTERED BRAND LOGO & TITLE
-       -------------------------------------------------- -->
-  <header class="brand-header">
-    <img class="brand-logo" alt="SIT Logo" src="data:image/png;base64,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">
-    <h1 class="brand-title">Special Interest Travel</h1>
-    <span class="brand-subtitle">Strategic Group Dashboard</span>
-  </header>
+       -------------------------------------------------- -  <header class="brand-header">
+    <img class="brand-logo" alt="SIT Logo" src="data:image/png;base64,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">
+    <h1 class="brand-title">Special Interest Travel & The Malta Experience — one growth system</h1>
+    <span class="brand-subtitle">A marketing growth plan for the M. Demajo Hospitality Division</span>
+  </header>der>
 
   <!-- --------------------------------------------------
        MAIN CANVAS CONTAINER
@@ -1098,6 +1108,7 @@
           <h2 class="engine-title">SIT — Special Interest Travel (DMC)</h2>
           <span class="engine-subtitle">The trust engine · B2B</span>
           <p class="engine-objective">Generate qualified B2B pipeline that feeds sales and revenue.</p>
+          <p class="engine-objective-marketing" style="font-size: 0.72rem; opacity: 0.8; margin-top: 0.25rem; font-style: italic; font-weight: 600; color: var(--ink);">Marketing delivers qualified opportunities + the proof to close. Sales closes.</p>
         </div>
 
         <!-- REVEAL STACK -->
@@ -1107,19 +1118,19 @@
             <h3 class="level-header">Who we speak to</h3>
             <ul class="audience-list">
               <li class="audience-item">
-                <span class="audience-badge">Target Segment 01 · B2B MICE</span>
+                <span class="audience-badge">B2B · MICE</span>
                 <span class="audience-title-text">MICE planners & event agencies</span>
                 <span class="audience-note">incl. incentive houses, PCOs</span>
               </li>
               <li class="audience-item">
-                <span class="audience-badge">Target Segment 02 · B2B Leisure</span>
+                <span class="audience-badge">B2B · Leisure</span>
                 <span class="audience-title-text">Leisure tour operators</span>
                 <span class="audience-note">France first &rarr; China / Japan / Italy / Spain</span>
               </li>
               <li class="audience-item">
-                <span class="audience-badge">Target Segment 03 · B2B Direct</span>
+                <span class="audience-badge">B2B · Direct</span>
                 <span class="audience-title-text">Corporates & associations</span>
-                <span class="audience-note">Direct marketing & outreach</span>
+                <span class="audience-note">direct</span>
               </li>
             </ul>
           </div>
@@ -1149,7 +1160,11 @@
                 <!-- Feedback Flowing Track (Step 5 -> 1) -->
                 <path d="M 139,114 A 85,85 0 0,1 205,58" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-feedback" marker-end="url(#cycleRedArrowHeadB2B)" />
 
-
+                <!-- Text along the feedback path (in dark ink, not red) -->
+                <path id="loopTextPathB2B" d="M 139,114 A 85,85 0 0,1 205,58" fill="none" />
+                <text font-family="Outfit" font-weight="800" font-size="7.5" fill="var(--ink)" dy="-5">
+                  <textPath href="#loopTextPathB2B" startOffset="50%" text-anchor="middle">↻ referrals/repeat feed Reach</textPath>
+                </text>
 
                 <!-- Nodes -->
                 <!-- Step 1: Reach -->
@@ -1160,12 +1175,12 @@
                   <text x="220" y="32" class="node-label" text-anchor="middle">Reach</text>
                 </g>
 
-                <!-- Step 2: Capture -->
-                <g class="cycle-node" tabindex="0" aria-label="Step 2: Capture">
+                <!-- Step 2: Capture (MQL) -->
+                <g class="cycle-node" tabindex="0" aria-label="Step 2: Capture (MQL)">
                   <circle cx="301" cy="114" r="18" class="node-bg" />
                   <circle cx="301" cy="114" r="12" class="node-dot" />
                   <text x="301" y="114" class="node-number">2</text>
-                  <text x="326" y="118" class="node-label" text-anchor="start">Capture</text>
+                  <text x="326" y="118" class="node-label" text-anchor="start">Capture (MQL)</text>
                 </g>
 
                 <!-- Step 3: Nurture -->
@@ -1176,12 +1191,12 @@
                   <text x="288" y="244" class="node-label" text-anchor="start">Nurture</text>
                 </g>
 
-                <!-- Step 4: SQL -->
-                <g class="cycle-node" tabindex="0" aria-label="Step 4: SQL">
+                <!-- Step 4: Sales enablement (SQL) -->
+                <g class="cycle-node" tabindex="0" aria-label="Step 4: Sales enablement (SQL)">
                   <circle cx="170" cy="209" r="18" class="node-bg" />
                   <circle cx="170" cy="209" r="12" class="node-dot" />
                   <text x="170" y="209" class="node-number">4</text>
-                  <text x="152" y="244" class="node-label" text-anchor="end">SQL</text>
+                  <text x="152" y="244" class="node-label" text-anchor="end">Sales enablement (SQL)</text>
                 </g>
 
                 <!-- Step 5: Win -->
@@ -1197,31 +1212,30 @@
 
           <!-- Step 3: Message & Channels (Two levels) -->
           <div class="reveal-level" data-step="3">
-            <div class="pillar-message-container">
-              <span class="channels-title" style="margin-bottom: 0.25rem;">The Pillar Message</span>
-              <h4 class="pillar-message-text">"We take the risk out of your event."</h4>
-              <p class="pillar-message-sub">Security · low risk · resolved complexity · 45 years of flawless execution.</p>
+            <div class="pillar-message-container" style="background-color: var(--red); color: var(--white); padding: 1.25rem 1.5rem; border-radius: 10px; margin-bottom: 1.25rem; box-shadow: 0 4px 15px rgba(203, 43, 28, 0.15); border: 1px solid rgba(255,255,255,0.1);">
+              <h4 class="pillar-message-text" style="font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 800; line-height: 1.2; color: var(--white); margin-bottom: 0.4rem;">"We take the risk out of your event."</h4>
+              <p class="pillar-message-sub" style="font-size: 0.85rem; color: rgba(255,255,255,0.9); font-weight: 500; line-height: 1.4;">Security · low risk · resolved complexity · 45 years of flawless execution.</p>
             </div>
             
-            <span class="channels-title">The Channels</span>
-            <div class="channels-container">
-              <span class="channel-chip">
+            <span class="channels-title" style="opacity: 0.55; margin-bottom: 0.25rem; display: block;">The Channels (Secondary)</span>
+            <div class="channels-container" style="gap: 0.45rem; margin-top: 0.5rem; opacity: 0.85;">
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">
                 <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
                 Buyer-intent SEO
               </span>
-              <span class="channel-chip">
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">
                 <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10zM2 12h20" stroke-linecap="round"/></svg>
                 Trade networks
               </span>
-              <span class="channel-chip">
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">
                 <svg class="chip-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                 LinkedIn & ABM
               </span>
-              <span class="channel-chip">
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">
                 <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke-linecap="round"/></svg>
                 Trade shows / fam trips
               </span>
-              <span class="channel-chip">
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">
                 <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke-linecap="round"/></svg>
                 Referrals
               </span>
@@ -1233,37 +1247,25 @@
             <h3 class="level-header">KPIs</h3>
             <div class="kpi-funnel">
               <div class="kpi-step">
-                <span>Website visit</span>
-                <span style="opacity: 0.5;">vs</span>
-                <span>Enquiry</span>
-                <span class="kpi-step-metric">Enquiry Rate</span>
+                <span>Site visit &rarr; Enquiry</span>
               </div>
               <div class="kpi-arrow-down">
                 <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
               </div>
               <div class="kpi-step">
-                <span>Enquiry</span>
-                <span style="opacity: 0.5;">vs</span>
-                <span>MQL</span>
-                <span class="kpi-step-metric">MQL Conv.</span>
+                <span>Enquiry &rarr; MQL</span>
               </div>
               <div class="kpi-arrow-down">
                 <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
               </div>
               <div class="kpi-step">
-                <span>MQL</span>
-                <span style="opacity: 0.5;">vs</span>
-                <span>SQL</span>
-                <span class="kpi-step-metric">SQL Conv.</span>
+                <span>MQL &rarr; SQL</span>
               </div>
               <div class="kpi-arrow-down">
                 <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
               </div>
               <div class="kpi-step">
-                <span>SQL</span>
-                <span style="opacity: 0.5;">vs</span>
-                <span>Won deal</span>
-                <span class="kpi-step-metric">Closing Rate</span>
+                <span>SQL &rarr; Won deal</span>
               </div>
             </div>
           </div>
@@ -1305,16 +1307,16 @@
             <h3 class="level-header">Who we speak to</h3>
             <div class="audience-weight-flex">
               <div class="audience-item weight-small">
-                <span class="audience-badge">Target Segment 01 · B2B Base (15% load)</span>
-                <span class="audience-title-text">Groups from the DMC</span>
-                <span class="audience-note">Predictable base load · ~zero acquisition cost · in-group margin</span>
+                <span class="audience-badge">Group base</span>
+                <span class="audience-title-text">Group base load</span>
+                <span class="audience-note">predictable · ~zero acquisition cost · in-group margin</span>
                 <div class="volume-bar-container"><div class="volume-bar-fill" style="width: 15%;"></div></div>
               </div>
               
               <div class="audience-item weight-large">
-                <span class="audience-badge" style="background-color: var(--red);">Target Segment 02 · B2C FIT (85% volume)</span>
+                <span class="audience-badge" style="background-color: var(--red);">FIT</span>
                 <span class="audience-title-text">Independent tourists (FIT)</span>
-                <span class="audience-note">The real volume driver · including cruise passengers & independent leisure travelers</span>
+                <span class="audience-note">the real volume · incl. cruise & independent leisure</span>
                 <div class="volume-bar-container"><div class="volume-bar-fill" style="width: 85%;"></div></div>
               </div>
             </div>
@@ -1344,6 +1346,12 @@
 
                 <!-- Feedback Flowing Track (Step 4 -> 1) -->
                 <path d="M 135,140 A 85,85 0 0,1 205,58" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-feedback" marker-end="url(#cycleRedArrowHeadB2C)" />
+
+                <!-- Text along the feedback path (in dark ink, not red) -->
+                <path id="loopTextPathB2C" d="M 135,140 A 85,85 0 0,1 205,58" fill="none" />
+                <text font-family="Outfit" font-weight="800" font-size="7.5" fill="var(--ink)" dy="-5">
+                  <textPath href="#loopTextPathB2C" startOffset="50%" text-anchor="middle">↻ reviews & data feed Capture</textPath>
+                </text>
 
 
 
@@ -1385,38 +1393,37 @@
 
           <!-- Step 3: Message & Channels -->
           <div class="reveal-level" data-step="3">
-            <div class="pillar-message-container">
-              <span class="channels-title" style="margin-bottom: 0.25rem;">The Pillar Message</span>
-              <h4 class="pillar-message-text">"Understand 7,000 years of Malta in 45 minutes — the first thing to do, in 17 languages, booked in one tap."</h4>
-              <p class="pillar-message-sub">Desire + ease — not security. Skip-the-queue · guaranteed seat · best price direct.</p>
+            <div class="pillar-message-container" style="background-color: var(--red); color: var(--white); padding: 1.25rem 1.5rem; border-radius: 10px; margin-bottom: 1.25rem; box-shadow: 0 4px 15px rgba(203, 43, 28, 0.15); border: 1px solid rgba(255,255,255,0.1);">
+              <h4 class="pillar-message-text" style="font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 800; line-height: 1.25; color: var(--white); margin-bottom: 0.4rem;">"Understand 7,000 years of Malta in 45 minutes — the first thing to do, in 17 languages, booked in one tap."</h4>
+              <p class="pillar-message-sub" style="font-size: 0.85rem; color: rgba(255,255,255,0.9); font-weight: 500; line-height: 1.4;">Desire + ease — not security. Skip-the-queue · guaranteed seat · best price direct.</p>
             </div>
             
             <div class="channels-grouped">
               <div class="channel-group-row">
                 <span class="channels-title">The Channels</span>
-                <span class="channel-group-label">Aware demand</span>
-                <div class="channels-container">
-                  <span class="channel-chip">
+                <span class="channel-group-label" style="font-weight: 800; color: var(--ink);">Aware demand (Primary / High ROI)</span>
+                <div class="channels-container" style="gap: 0.45rem; margin-top: 0.3rem;">
+                  <span class="channel-chip" style="background-color: rgba(255, 255, 255, 0.6); border-color: rgba(22, 36, 46, 0.25); font-weight: 700; transform: scale(1.05); transform-origin: left center;">
                     <svg class="chip-icon" viewBox="0 0 24 24"><path d="M12.24 10.285V13.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.859-3.578-7.859-8s3.53-8 7.859-8c2.46 0 4.105 1.025 5.047 1.926l2.427-2.334C17.955 2.192 15.34 1 12.24 1 6.033 1 1 6.033 1 12.24s5.033 11.24 11.24 11.24c6.478 0 10.793-4.537 10.793-10.997 0-.746-.08-1.32-.176-1.898H12.24z"/></svg>
                     Google (Search · Maps · SEO)
                   </span>
                 </div>
               </div>
-              <div class="channel-group-row">
-                <span class="channel-group-label">Latent demand</span>
-                <div class="channels-container">
-                  <span class="channel-chip">
+              <div class="channel-group-row" style="margin-top: 0.3rem;">
+                <span class="channel-group-label" style="opacity: 0.65;">Latent demand (Secondary / Demand creation)</span>
+                <div class="channels-container" style="gap: 0.45rem; margin-top: 0.3rem; opacity: 0.85;">
+                  <span class="channel-chip" style="font-size: 0.75rem; padding: 0.25rem 0.60rem;">
                     <svg class="chip-icon" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                     Meta Ads
                   </span>
-                  <span class="channel-chip">
+                  <span class="channel-chip" style="font-size: 0.75rem; padding: 0.25rem 0.60rem;">
                     <svg class="chip-icon" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.2-.43-.43-.63-.67-.07 2.62-.04 5.24-.05 7.86-.1 2.2-1.04 4.39-2.77 5.74-2.11 1.77-5.18 2.2-7.65 1.15-2.92-1.12-4.88-4.32-4.56-7.5.21-2.9 2.22-5.54 5.09-6.2 1.05-.27 2.14-.26 3.2-.02V13.2c-.75-.24-1.6-.28-2.33-.02-1.33.42-2.19 1.87-1.91 3.25.21 1.19 1.34 2.1 2.54 1.95 1.19-.1 2.07-1.19 2.05-2.39V.02z"/></svg>
                     TikTok
                   </span>
                 </div>
               </div>
             </div>
-            <span class="ota-note">Note: OTAs = reach, not the goal.</span>
+            <span class="ota-note" style="margin-top: 0.75rem; display: block; opacity: 0.6; font-size: 0.75rem;">Note: OTAs = reach, not the goal.</span>
           </div>
 
           <!-- Step 4: KPIs -->
@@ -1424,37 +1431,26 @@
             <h3 class="level-header">KPIs</h3>
             <div class="kpi-funnel">
               <div class="kpi-step">
-                <span>Website visit</span>
-                <span style="opacity: 0.5;">vs</span>
-                <span>Add to cart</span>
-                <span class="kpi-step-metric">Add-to-Cart %</span>
+                <span>Site visit &rarr; Add to cart</span>
               </div>
               <div class="kpi-arrow-down">
                 <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
               </div>
               <div class="kpi-step">
-                <span>Add to cart</span>
-                <span style="opacity: 0.5;">vs</span>
-                <span>Checkout</span>
-                <span class="kpi-step-metric">Checkout conv.</span>
+                <span>Add to cart &rarr; Checkout</span>
               </div>
               <div class="kpi-arrow-down">
                 <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
               </div>
               <div class="kpi-step">
-                <span>Checkout</span>
-                <span style="opacity: 0.5;">vs</span>
-                <span>Purchase</span>
-                <span class="kpi-step-metric">Purchase conv.</span>
+                <span>Checkout &rarr; Purchase</span>
               </div>
               <div class="kpi-arrow-down">
                 <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: currentColor; width: 12px; height: 12px; opacity: 0.4;"><path d="M6 9l6 6 6-6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
               </div>
               <div class="kpi-step" style="border-left-color: var(--red);">
-                <span>Direct</span>
-                <span style="opacity: 0.5;">vs</span>
-                <span>OTA booking mix</span>
-                <span class="kpi-step-metric" style="background-color: var(--red); color: var(--white);">OTA Margin recovery</span>
+                <span>Direct vs OTA mix</span>
+                <span class="kpi-step-metric" style="background-color: var(--red); color: var(--white); font-size: 0.72rem; padding: 0.15rem 0.45rem;">margin recovery</span>
               </div>
             </div>
           </div>
@@ -1477,6 +1473,12 @@
        -------------------------------------------------- -->
   <footer class="basement-minimal" id="basementMinimal">
     <h3 class="basement-title-mini">Built once, owned by the Group</h3>
+    <div class="basement-pills-row">
+      <span class="basement-pill">Shared measurement</span>
+      <span class="basement-pill">Shared first-party data</span>
+      <span class="basement-pill">Brand consistency</span>
+      <span class="basement-pill">Competitor & market watch</span>
+    </div>
   </footer>
 
   <!-- --------------------------------------------------
