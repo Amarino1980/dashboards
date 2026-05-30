@@ -95,6 +95,15 @@
       animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
+    .brand-logo {
+      height: 52px;
+      width: auto;
+      object-fit: contain;
+      margin-bottom: 0.85rem;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3)) brightness(0) invert(1);
+      opacity: 0.9;
+    }
+
     .brand-title {
       font-family: 'Outfit', sans-serif;
       font-size: 1.35rem;
@@ -512,19 +521,15 @@
     .audience-item.weight-small {
       border-left-color: #4A89C0;
       background-color: rgba(255, 255, 255, 0.32);
-      padding: 0.75rem 1.1rem;
-      transform: scale(0.95);
-      transform-origin: center;
+      padding: 0.85rem 1.25rem;
       opacity: 0.85;
     }
 
     .audience-item.weight-large {
-      border-left-color: var(--red);
-      background-color: rgba(255, 255, 255, 0.55); /* Keep it light and glassmorphic */
-      box-shadow: 0 6px 16px rgba(203, 43, 28, 0.08);
-      padding: 1.35rem 1.6rem;
-      transform: scale(1.03);
-      transform-origin: center;
+      border-left-color: #4A89C0;
+      background-color: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 6px 16px rgba(74, 137, 192, 0.12);
+      padding: 1.1rem 1.4rem;
     }
 
     .audience-item.weight-large .audience-badge {
@@ -726,8 +731,8 @@
     }
 
     .svg-cycle {
-      max-width: 440px;
-      height: 320px;
+      max-width: 595px;
+      height: 430px;
       width: 100%;
     }
 
@@ -884,64 +889,10 @@
       overflow: hidden;
     }
 
-    /* --------------------------------------------------
-       BASEMENT FOOTER (SHARED FOUNDATION - minimal)
-       -------------------------------------------------- */
-    .basement-minimal {
-      width: 100%;
-      max-width: 1000px;
-      margin: 1.5rem auto 0 auto;
-      padding: 0 1.5rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      transition: opacity var(--transition-speed) var(--transition-spring);
-      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
-    }
-
-    .basement-title-mini {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.55);
-      letter-spacing: -0.01em;
-    }
-
-    .basement-pills-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .basement-pill {
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 0.4rem 0.85rem;
-      border-radius: 20px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.75);
-      transition: all 0.3s ease;
-    }
-
-    .basement-pill:hover {
-      background-color: rgba(255, 255, 255, 0.12);
-      color: var(--white);
-      transform: translateY(-1px);
-    }
-
-    /* Recede basement during focus states */
-    body.state-focus-dmc .basement-minimal,
-    body.state-focus-tme .basement-minimal {
-      opacity: 0.1;
-    }
-    body.state-focus-dmc .basement-minimal:hover,
-    body.state-focus-tme .basement-minimal:hover {
-      opacity: 0.6;
+    /* Home state: equal height for both engine cards */
+    body.state-home .engine-card {
+      height: 230px;
+      overflow: hidden;
     }
 
     /* --------------------------------------------------
@@ -1106,6 +1057,7 @@
        CENTERED BRAND LOGO & TITLE
        -------------------------------------------------- -->
   <header class="brand-header">
+    <img class="brand-logo" src="logo.png" alt="M. Demajo Hospitality Division">
     <h1 class="brand-title">Special Interest Travel & The Malta Experience — one growth system</h1>
     <span class="brand-subtitle">A marketing growth plan for the M. Demajo Hospitality Division</span>
   </header>
@@ -1154,7 +1106,7 @@
           <div class="reveal-level" data-step="2">
             <h3 class="level-header">The lead cycle</h3>
             <div class="svg-cycle-container">
-              <svg class="svg-cycle" viewBox="0 0 440 320" width="100%" height="320" aria-label="B2B Lead cycle circular pipeline flow">
+              <svg class="svg-cycle" viewBox="0 0 440 320" width="135%" height="432" aria-label="B2B Lead cycle circular pipeline flow">
                 <defs>
                   <marker id="cycleRedArrowHeadB2B" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                     <path d="M 10 2 L 3 5 L 10 8 z" fill="var(--red)"/>
@@ -1202,7 +1154,7 @@
                 <g class="cycle-node" tabindex="0" aria-label="Step 3: Nurture">
                   <circle cx="270" cy="209" r="18" class="node-bg" />
                   <circle cx="270" cy="209" r="12" class="node-dot" />
-                  <text x="270" y="209" class="node-number">3</text>
+                  <text x="270" cy="209" class="node-number">3</text>
                   <text x="288" y="244" class="node-label" text-anchor="start">Nurture</text>
                 </g>
 
@@ -1326,7 +1278,7 @@
           <div class="reveal-level" data-step="2">
             <h3 class="level-header">The visitor cycle</h3>
             <div class="svg-cycle-container">
-              <svg class="svg-cycle" viewBox="0 0 440 320" width="100%" height="320" aria-label="B2C Visitor cycle circular pipeline flow">
+              <svg class="svg-cycle" viewBox="0 0 440 320" width="135%" height="432" aria-label="B2C Visitor cycle circular pipeline flow">
                 <defs>
                   <marker id="cycleRedArrowHeadB2C" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                     <path d="M 10 2 L 3 5 L 10 8 z" fill="var(--red)"/>
@@ -1352,8 +1304,6 @@
                 <text font-family="Outfit" font-weight="800" font-size="7.5" fill="var(--ink)" dy="-5">
                   <textPath href="#loopTextPathB2C" startOffset="50%" text-anchor="middle">↻ reviews & data feed Capture</textPath>
                 </text>
-
-
 
                 <!-- Nodes -->
                 <!-- Step 1: Capture -->
@@ -1466,19 +1416,6 @@
 
     </div>
   </main>
-
-  <!-- --------------------------------------------------
-       BASEMENT FOUNDATION (MINIMAL PILLS ROW ON CANVAS)
-       -------------------------------------------------- -->
-  <footer class="basement-minimal" id="basementMinimal">
-    <h3 class="basement-title-mini">Built once, owned by the Group</h3>
-    <div class="basement-pills-row">
-      <span class="basement-pill">Shared measurement</span>
-      <span class="basement-pill">Shared first-party data</span>
-      <span class="basement-pill">Brand consistency</span>
-      <span class="basement-pill">Competitor & market watch</span>
-    </div>
-  </footer>
 
   <!-- --------------------------------------------------
        INTERACTIVE SCRIPT (STATE MACHINE)
