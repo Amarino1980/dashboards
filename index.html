@@ -89,29 +89,37 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2.5rem 2rem 0.5rem 2rem;
+      padding: 1.75rem 2rem 1.5rem 2rem;
       text-align: center;
       width: 100%;
+      background-color: #FFFFFF;
+      border-bottom: 1px solid rgba(22, 36, 46, 0.10);
       animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .brand-logo-img {
+      height: 54px;
+      width: auto;
+      margin-bottom: 0.85rem;
     }
 
     .brand-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.35rem;
+      font-size: 1.75rem;
       font-weight: 700;
       letter-spacing: -0.02em;
-      color: rgba(255, 255, 255, 0.85);
-      margin-bottom: 0.15rem;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
     }
 
     .brand-subtitle {
       font-family: 'Outfit', sans-serif;
-      font-size: 0.82rem;
-      color: var(--blue);
+      font-size: 1rem;
+      color: var(--blue-deep);
       font-weight: 600;
       text-transform: none;
       letter-spacing: 0.02em;
-      margin-top: 0.2rem;
+      margin-top: 0.25rem;
     }
 
     /* --------------------------------------------------
@@ -145,10 +153,10 @@
        -------------------------------------------------- */
     .engine-card {
       flex: 1;
-      max-width: 250px; /* 50-60% smaller default width */
-      min-height: 200px; /* 50-60% smaller default height */
+      max-width: 310px;
+      min-height: 220px;
       border-radius: var(--border-radius);
-      padding: 1.25rem 1.5rem; /* Compact padding */
+      padding: 1.35rem 1.65rem;
       position: relative;
       cursor: pointer;
       display: flex;
@@ -159,7 +167,7 @@
       -webkit-backdrop-filter: blur(12px);
       transition: all var(--transition-speed) var(--transition-spring);
       border: 1px solid rgba(255, 255, 255, 0.22);
-      height: auto; /* grow naturally */
+      height: auto;
     }
 
     .engine-card[data-engine="dmc"] {
@@ -187,12 +195,12 @@
 
     .engine-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem; /* Smaller default */
-      font-weight: 800;
+      font-size: 1.15rem;
+      font-weight: 700;
       color: var(--ink);
       line-height: 1.15;
       margin-bottom: 0.2rem;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.02em;
       transition: font-size var(--transition-speed) var(--transition-spring), margin-bottom var(--transition-speed) var(--transition-spring);
     }
 
@@ -324,7 +332,7 @@
     .reveal-stack {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 2px;
       margin-top: 1rem;
       width: 100%;
     }
@@ -347,6 +355,9 @@
       opacity: 1;
       transform: translateY(0);
       animation: revealCard 450ms var(--transition-spring) forwards;
+      border-radius: 0;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 48px), 50% 100%, 0 calc(100% - 48px));
+      padding-bottom: 3.5rem;
     }
 
     /* Hide reveal buttons in home state */
@@ -379,10 +390,15 @@
        REVEAL ACTION BUTTONS (ALWAYS VISIBLE LOGIC)
        -------------------------------------------------- */
     .btn-reveal-container {
-      margin-top: 1.5rem;
+      margin-top: 0.75rem;
       display: flex;
       justify-content: center;
       width: 100%;
+    }
+
+    /* Reveal connector — hidden, funnel shape on card handles the arrow */
+    .reveal-connector {
+      display: none;
     }
 
     .btn-reveal {
@@ -512,19 +528,15 @@
     .audience-item.weight-small {
       border-left-color: #4A89C0;
       background-color: rgba(255, 255, 255, 0.32);
-      padding: 0.75rem 1.1rem;
-      transform: scale(0.95);
-      transform-origin: center;
+      padding: 0.85rem 1.25rem;
       opacity: 0.85;
     }
 
     .audience-item.weight-large {
-      border-left-color: var(--red);
-      background-color: rgba(255, 255, 255, 0.55); /* Keep it light and glassmorphic */
-      box-shadow: 0 6px 16px rgba(203, 43, 28, 0.08);
-      padding: 1.35rem 1.6rem;
-      transform: scale(1.03);
-      transform-origin: center;
+      border-left-color: #4A89C0;
+      background-color: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 6px 16px rgba(74, 137, 192, 0.12);
+      padding: 1.1rem 1.4rem;
     }
 
     .audience-item.weight-large .audience-badge {
@@ -726,8 +738,8 @@
     }
 
     .svg-cycle {
-      max-width: 440px;
-      height: 320px;
+      max-width: 595px;
+      height: 430px;
       width: 100%;
     }
 
@@ -767,20 +779,20 @@
       transition: all 0.3s var(--transition-spring);
     }
 
-    /* Hover States */
+    /* Hover States — base (background) */
     .cycle-node:hover .node-bg {
       fill: var(--ink);
       stroke: var(--ink);
       filter: drop-shadow(0 4px 10px rgba(22, 36, 46, 0.15));
     }
 
-    .cycle-node:hover .node-dot {
-      fill: var(--red);
-    }
+    /* DMC cycle nodes: hover → verde brand */
+    .svg-cycle-dmc .cycle-node:hover .node-dot { fill: #7AC043; }
+    .svg-cycle-dmc .cycle-node:hover .node-label { fill: #7AC043; }
 
-    .cycle-node:hover .node-label {
-      fill: var(--red);
-    }
+    /* TME cycle nodes: nessun hover — verde su verde difficile da gestire */
+    .svg-cycle-tme .cycle-node:hover .node-bg { fill: rgba(255, 255, 255, 0.75); stroke: rgba(22, 36, 46, 0.12); filter: none; }
+    .svg-cycle-tme .cycle-node:hover .node-dot { fill: var(--ink); }
 
     /* Track Flow Animations */
     .track-flow-main {
@@ -837,15 +849,15 @@
       width: 100%;
       text-align: center;
       padding: 1.25rem 1rem;
-      background-color: rgba(255, 255, 255, 0.08);
+      background-color: rgba(203, 43, 28, 0.18);
       border-radius: var(--border-radius);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(203, 43, 28, 0.45);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       cursor: help;
       position: relative;
       animation: floatArrow 4s ease-in-out infinite;
-      box-shadow: var(--shadow-soft);
+      box-shadow: 0 4px 18px rgba(203, 43, 28, 0.2);
     }
 
     @keyframes floatArrow {
@@ -854,15 +866,15 @@
     }
 
     .arrow-svg {
-      width: 40px;
-      height: 18px;
-      fill: var(--orange);
+      width: 44px;
+      height: 20px;
+      fill: var(--red);
       transition: transform 0.3s var(--transition-spring);
     }
 
     .arrow-container:hover .arrow-svg {
       transform: scaleX(1.15);
-      fill: var(--red);
+      fill: #FF5242;
     }
 
     .connection-tooltip {
@@ -884,64 +896,9 @@
       overflow: hidden;
     }
 
-    /* --------------------------------------------------
-       BASEMENT FOOTER (SHARED FOUNDATION - minimal)
-       -------------------------------------------------- */
-    .basement-minimal {
-      width: 100%;
-      max-width: 1000px;
-      margin: 1.5rem auto 0 auto;
-      padding: 0 1.5rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      transition: opacity var(--transition-speed) var(--transition-spring);
-      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
-    }
-
-    .basement-title-mini {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.55);
-      letter-spacing: -0.01em;
-    }
-
-    .basement-pills-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .basement-pill {
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 0.4rem 0.85rem;
-      border-radius: 20px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.75);
-      transition: all 0.3s ease;
-    }
-
-    .basement-pill:hover {
-      background-color: rgba(255, 255, 255, 0.12);
-      color: var(--white);
-      transform: translateY(-1px);
-    }
-
-    /* Recede basement during focus states */
-    body.state-focus-dmc .basement-minimal,
-    body.state-focus-tme .basement-minimal {
-      opacity: 0.1;
-    }
-    body.state-focus-dmc .basement-minimal:hover,
-    body.state-focus-tme .basement-minimal:hover {
-      opacity: 0.6;
+    /* Home state: equal-ish height for both engine cards */
+    body.state-home .engine-card {
+      min-height: 260px;
     }
 
     /* --------------------------------------------------
@@ -1098,6 +1055,114 @@
         animation: none !important;
       }
     }
+
+    /* ==================================================
+       POLISH LAYER — Animations, Progress, Stagger
+       ================================================== */
+
+    /* — A1: Progress dots — */
+    .progress-dots {
+      display: none;
+      gap: 5px;
+      margin-bottom: 0.6rem;
+      align-items: center;
+    }
+    body.state-focus-dmc .engine-card[data-engine="dmc"] .progress-dots,
+    body.state-focus-tme .engine-card[data-engine="tme"] .progress-dots {
+      display: flex;
+    }
+    .pdot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: rgba(22, 36, 46, 0.15);
+      border: 1px solid rgba(22, 36, 46, 0.25);
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    .pdot.is-done {
+      background-color: var(--ink);
+      border-color: var(--ink);
+    }
+    .pdot.is-active {
+      background-color: var(--ink);
+      border-color: var(--ink);
+      transform: scale(1.5);
+    }
+
+    /* — A2: Step border-left + header color coding (same scheme both engines) — */
+    .reveal-level[data-step="1"].is-active { border-left: 4px solid #2C6EA6; }
+    .reveal-level[data-step="2"].is-active { border-left: 4px solid #1565C0; }
+    .reveal-level[data-step="3"].is-active { border-left: 4px solid #1B3C6E; }
+    .reveal-level[data-step="4"].is-active { border-left: 4px solid var(--red); }
+
+    /* Step header title inherits the border color */
+    .reveal-level[data-step="1"].is-active .level-header { color: #2C6EA6; opacity: 1; }
+    .reveal-level[data-step="2"].is-active .level-header { color: #1565C0; opacity: 1; }
+    .reveal-level[data-step="3"].is-active .level-header { color: #1B3C6E; opacity: 1; }
+    .reveal-level[data-step="4"].is-active .level-header { color: var(--red); opacity: 1; }
+
+    /* — A3: Channel chip stagger — */
+    @keyframes chipIn {
+      from { opacity: 0; transform: translateY(7px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal-level.is-active .channel-chip {
+      opacity: 0;
+      animation: chipIn 0.35s ease forwards;
+    }
+    .reveal-level.is-active .channel-chip:nth-child(1) { animation-delay: 0.05s; }
+    .reveal-level.is-active .channel-chip:nth-child(2) { animation-delay: 0.13s; }
+    .reveal-level.is-active .channel-chip:nth-child(3) { animation-delay: 0.21s; }
+    .reveal-level.is-active .channel-chip:nth-child(4) { animation-delay: 0.29s; }
+    .reveal-level.is-active .channel-chip:nth-child(5) { animation-delay: 0.37s; }
+
+    /* — B1: Focus entry glow — */
+    @keyframes focusEntryGlow {
+      0%   { box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), var(--shadow-focused); }
+      40%  { box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 0 50px 12px rgba(255,255,255,0.09), var(--shadow-focused); }
+      100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), var(--shadow-focused); }
+    }
+    .engine-card.is-entering {
+      animation: focusEntryGlow 0.65s ease;
+    }
+
+    /* — B2: KPI funnel taper — */
+    .kpi-funnel .kpi-step:nth-child(3)  { margin-left: 4%;  margin-right: 4%; }
+    .kpi-funnel .kpi-step:nth-child(5)  { margin-left: 8%;  margin-right: 8%; }
+    .kpi-funnel .kpi-step:nth-child(7)  { margin-left: 12%; margin-right: 12%; }
+
+    /* — B3: Reveal button pulse hint — */
+    @keyframes btnPulse {
+      0%, 100% { box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+      50%       { box-shadow: 0 4px 10px rgba(0,0,0,0.15), 0 0 0 7px rgba(22,36,46,0.09); }
+    }
+    .btn-reveal.pulse-hint {
+      animation: btnPulse 1.1s ease 2;
+    }
+
+    /* — C1: Cycle SVG draw-in (track fade + node stagger) — */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .reveal-level.is-active .track-flow-main {
+      opacity: 0;
+      animation: fadeIn 0.55s ease 0.15s forwards, flowMain 12s linear 0.7s infinite;
+    }
+    .reveal-level.is-active .track-flow-feedback {
+      opacity: 0;
+      animation: fadeIn 0.45s ease 0.35s forwards, flowFeedback 4s linear 0.8s infinite;
+    }
+    .reveal-level.is-active .svg-cycle .cycle-node {
+      opacity: 0;
+      animation: scaleIn 0.35s var(--transition-spring) forwards;
+    }
+    .reveal-level.is-active .svg-cycle .cycle-node:nth-of-type(1) { animation-delay: 0.5s; }
+    .reveal-level.is-active .svg-cycle .cycle-node:nth-of-type(2) { animation-delay: 0.65s; }
+    .reveal-level.is-active .svg-cycle .cycle-node:nth-of-type(3) { animation-delay: 0.8s; }
+    .reveal-level.is-active .svg-cycle .cycle-node:nth-of-type(4) { animation-delay: 0.95s; }
+    .reveal-level.is-active .svg-cycle .cycle-node:nth-of-type(5) { animation-delay: 1.1s; }
   </style>
 </head>
 <body class="state-home">
@@ -1106,7 +1171,8 @@
        CENTERED BRAND LOGO & TITLE
        -------------------------------------------------- -->
   <header class="brand-header">
-    <h1 class="brand-title">Special Interest Travel & The Malta Experience — one growth system</h1>
+    <img src="logo.png" class="brand-logo-img" alt="SIT logo">
+    <h1 class="brand-title">Special Interest Travel &amp; The Malta Experience — one growth system</h1>
     <span class="brand-subtitle">A marketing growth plan for the M. Demajo Hospitality Division</span>
   </header>
 
@@ -1120,17 +1186,23 @@
       <section class="engine-card" data-engine="dmc" id="cardDMC" aria-expanded="false" tabindex="0">
         <div class="engine-header">
           <button class="btn-overview" id="btnOverviewDMC" aria-label="Back to overview">Overview</button>
+          <div class="progress-dots" id="progressDMC">
+            <span class="pdot" data-dot="1"></span>
+            <span class="pdot" data-dot="2"></span>
+            <span class="pdot" data-dot="3"></span>
+            <span class="pdot" data-dot="4"></span>
+          </div>
           <h2 class="engine-title">SIT — Special Interest Travel (DMC)</h2>
           <span class="engine-subtitle">THE TRUST ENGINE · B2B</span>
           <p class="engine-objective">Generate qualified B2B pipeline that feeds sales and revenue.</p>
-          <p class="engine-objective-marketing" style="font-size: 0.72rem; opacity: 0.8; margin-top: 0.25rem; font-style: italic; font-weight: 600; color: var(--ink);">Marketing delivers qualified opportunities + the proof to close. Sales closes.</p>
+          <p class="engine-objective-marketing" style="font-size: 0.78rem; margin-top: 0.3rem; font-weight: 600; color: var(--ink); opacity: 0.7; background: rgba(22,36,46,0.07); border-radius: 6px; padding: 0.35rem 0.6rem;">Marketing: qualified opportunities + proof to close &rarr; Sales closes.</p>
         </div>
 
         <!-- REVEAL STACK -->
         <div class="reveal-stack" id="stackDMC" aria-live="polite">
           <!-- Step 1: Audiences -->
           <div class="reveal-level" data-step="1">
-            <h3 class="level-header">Who we speak to</h3>
+            <h3 class="level-header">Our Target Audience</h3>
             <ul class="audience-list">
               <li class="audience-item">
                 <span class="audience-badge">B2B · MICE</span>
@@ -1148,13 +1220,14 @@
                 <span class="audience-note">direct</span>
               </li>
             </ul>
+            <div class="reveal-connector"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><path d="M2 2L12 12L22 2" stroke="#16242E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
 
           <!-- Step 2: Cycle (Sleek horizontal loop SVG pipeline) -->
           <div class="reveal-level" data-step="2">
-            <h3 class="level-header">The lead cycle</h3>
+            <h3 class="level-header">Sales Cycle&thinsp;<span style="font-size:0.65rem; text-transform:lowercase; opacity:0.55; font-weight:500; letter-spacing:0.01em;">/ lead cycle</span></h3>
             <div class="svg-cycle-container">
-              <svg class="svg-cycle" viewBox="0 0 440 320" width="100%" height="320" aria-label="B2B Lead cycle circular pipeline flow">
+              <svg class="svg-cycle svg-cycle-dmc" viewBox="28 10 384 270" width="100%" aria-label="B2B Lead cycle circular pipeline flow">
                 <defs>
                   <marker id="cycleRedArrowHeadB2B" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                     <path d="M 10 2 L 3 5 L 10 8 z" fill="var(--red)"/>
@@ -1163,7 +1236,7 @@
 
                 <!-- Central Indicator -->
                 <circle cx="220" cy="140" r="32" fill="rgba(22, 36, 46, 0.04)" stroke="rgba(22, 36, 46, 0.08)" stroke-width="1.5" stroke-dasharray="2, 4" />
-                <text x="220" y="136" font-family="Outfit" font-weight="800" font-size="9" fill="var(--ink)" text-anchor="middle">LEAD</text>
+                <text x="220" y="136" font-family="Outfit" font-weight="800" font-size="9" fill="var(--ink)" text-anchor="middle">SALES</text>
                 <text x="220" y="148" font-family="Outfit" font-weight="800" font-size="9" fill="var(--ink)" text-anchor="middle">CYCLE</text>
 
                 <!-- Background Track Circle -->
@@ -1175,11 +1248,7 @@
                 <!-- Feedback Flowing Track (Step 5 -> 1) -->
                 <path d="M 139,114 A 85,85 0 0,1 205,58" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-feedback" />
 
-                <!-- Text along the feedback path (in dark ink, not red) -->
                 <path id="loopTextPathB2B" d="M 139,114 A 85,85 0 0,1 205,58" fill="none" />
-                <text font-family="Outfit" font-weight="800" font-size="7.5" fill="var(--ink)" dy="-5">
-                  <textPath href="#loopTextPathB2B" startOffset="50%" text-anchor="middle">↻ loyalty & cross-sell feeds pipeline</textPath>
-                </text>
 
                 <!-- Nodes -->
                 <!-- Step 1: Reach -->
@@ -1218,28 +1287,31 @@
                 <g class="cycle-node" tabindex="0" aria-label="Step 5: Win">
                   <circle cx="139" cy="114" r="18" class="node-bg" />
                   <circle cx="139" cy="114" r="12" class="node-dot" />
-                  <text x="139" cy="114" class="node-number">5</text>
+                  <text x="139" y="114" class="node-number">5</text>
                   <text x="114" y="118" class="node-label" text-anchor="end">Win</text>
                 </g>
               </svg>
             </div>
+            <div class="reveal-connector"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><path d="M2 2L12 12L22 2" stroke="#16242E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
 
           <!-- Step 3: Message & Channels (Two levels) -->
           <div class="reveal-level" data-step="3">
+            <h3 class="level-header">Message Pillars</h3>
             <div class="pillar-message-container" style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(4px); border: 1px solid rgba(22, 36, 46, 0.1); padding: 1.25rem 1.5rem; border-radius: 10px; margin-bottom: 1.25rem; border-left: 4px solid var(--ink);">
+              <span style="font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); opacity: 0.45; display: block; margin-bottom: 0.5rem;">e.g.</span>
               <h4 class="pillar-message-text" style="font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 800; line-height: 1.2; color: var(--ink); margin-bottom: 0.4rem;">"We take the risk out of your event."</h4>
               <p class="pillar-message-sub" style="font-size: 0.85rem; color: var(--ink); opacity: 0.75; font-weight: 500; line-height: 1.4;">Security · low risk · resolved complexity · 45 years of flawless execution.</p>
             </div>
             
-            <span class="channels-title" style="opacity: 0.55; margin-bottom: 0.25rem; display: block;">The Channels (Secondary)</span>
+            <span class="channels-title" style="opacity: 0.55; margin-bottom: 0.25rem; display: block;">The Channels</span>
             <div class="channels-container" style="gap: 0.45rem; margin-top: 0.5rem; opacity: 0.85;">
-              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">Buyer-intent SEO</span>
-              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">Trade networks</span>
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">SEO (buyer-intent)</span>
+              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">Trade shows & networks</span>
               <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">LinkedIn & ABM</span>
-              <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">Trade shows / fam trips</span>
               <span class="channel-chip" style="font-size: 0.72rem; padding: 0.25rem 0.60rem;">Referrals</span>
             </div>
+            <div class="reveal-connector"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><path d="M2 2L12 12L22 2" stroke="#16242E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
 
           <!-- Step 4: KPIs -->
@@ -1268,6 +1340,7 @@
                 <span>SQL &rarr; Won deal</span>
               </div>
             </div>
+            <div class="reveal-connector"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><path d="M2 2L12 12L22 2" stroke="#16242E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
         </div>
 
@@ -1295,6 +1368,12 @@
       <section class="engine-card" data-engine="tme" id="cardTME" aria-expanded="false" tabindex="0">
         <div class="engine-header">
           <button class="btn-overview" id="btnOverviewTME" aria-label="Back to overview">Overview</button>
+          <div class="progress-dots" id="progressTME">
+            <span class="pdot" data-dot="1"></span>
+            <span class="pdot" data-dot="2"></span>
+            <span class="pdot" data-dot="3"></span>
+            <span class="pdot" data-dot="4"></span>
+          </div>
           <h2 class="engine-title">The Malta Experience</h2>
           <span class="engine-subtitle">THE DEMAND ENGINE · B2C / E-COMMERCE</span>
           <p class="engine-objective">Capture existing tourist demand and win direct bookings — recover margin from OTAs and fill the show.</p>
@@ -1304,39 +1383,40 @@
         <div class="reveal-stack" id="stackTME" aria-live="polite">
           <!-- Step 1: Audiences -->
           <div class="reveal-level" data-step="1">
-            <h3 class="level-header">Who we speak to</h3>
+            <h3 class="level-header">Our Target</h3>
             <div class="audience-weight-flex">
-              <div class="audience-item weight-small">
+              <div class="audience-item">
                 <span class="audience-badge">Group base</span>
                 <span class="audience-title-text">Group base load</span>
                 <span class="audience-note">predictable · ~zero acquisition cost · in-group margin</span>
                 <div class="volume-bar-container"><div class="volume-bar-fill" style="width: 15%;"></div></div>
               </div>
               
-              <div class="audience-item weight-large" style="border-left-color: #4A89C0; box-shadow: 0 6px 16px rgba(74,137,192,0.1);">
-                <span class="audience-badge" style="background-color: #4A89C0;">FIT</span>
+              <div class="audience-item" style="border-left-color: #4A89C0; box-shadow: 0 4px 12px rgba(74,137,192,0.1);">
+                <span class="audience-badge" style="background-color: #4A89C0; color: white;">FIT</span>
                 <span class="audience-title-text">Independent tourists (FIT)</span>
-                <span class="audience-note">the real volume · incl. cruise & independent leisure</span>
+                <span class="audience-note">the real volume · incl. cruise &amp; independent leisure</span>
                 <div class="volume-bar-container"><div class="volume-bar-fill" style="width: 85%; background-color: #4A89C0;"></div></div>
               </div>
             </div>
+            <div class="reveal-connector"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><path d="M2 2L12 12L22 2" stroke="#16242E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
 
           <!-- Step 2: Cycle (Minimalist pipeline flow) -->
           <div class="reveal-level" data-step="2">
-            <h3 class="level-header">The visitor cycle</h3>
+            <h3 class="level-header">Customer Journey</h3>
             <div class="svg-cycle-container">
-              <svg class="svg-cycle" viewBox="0 0 440 320" width="100%" height="320" aria-label="B2C Visitor cycle circular pipeline flow">
+              <svg class="svg-cycle svg-cycle-tme" viewBox="28 10 384 270" width="100%" aria-label="B2C Visitor cycle circular pipeline flow">
                 <defs>
-                  <marker id="cycleRedArrowHeadB2C" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                    <path d="M 10 2 L 3 5 L 10 8 z" fill="var(--red)"/>
+                  <marker id="cycleBlueArrowHeadB2C" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 10 2 L 3 5 L 10 8 z" fill="var(--blue)"/>
                   </marker>
                 </defs>
 
                 <!-- Central Indicator -->
                 <circle cx="220" cy="140" r="32" fill="rgba(22, 36, 46, 0.04)" stroke="rgba(22, 36, 46, 0.08)" stroke-width="1.5" stroke-dasharray="2, 4" />
-                <text x="220" y="136" font-family="Outfit" font-weight="800" font-size="9" fill="var(--ink)" text-anchor="middle">VISITOR</text>
-                <text x="220" y="148" font-family="Outfit" font-weight="800" font-size="9" fill="var(--ink)" text-anchor="middle">CYCLE</text>
+                <text x="220" y="136" font-family="Outfit" font-weight="800" font-size="9" fill="var(--ink)" text-anchor="middle">CUSTOMER</text>
+                <text x="220" y="148" font-family="Outfit" font-weight="800" font-size="9" fill="var(--ink)" text-anchor="middle">JOURNEY</text>
 
                 <!-- Background Track Circle -->
                 <circle cx="220" cy="140" r="85" fill="none" stroke="var(--ink)" stroke-width="2" opacity="0.1" />
@@ -1345,15 +1425,9 @@
                 <path d="M 220,55 A 85,85 0 1,1 135,140" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-main" />
 
                 <!-- Feedback Flowing Track (Step 4 -> 1) -->
-                <path d="M 135,140 A 85,85 0 0,1 205,58" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-feedback" marker-end="url(#cycleRedArrowHeadB2C)" />
+                <path d="M 135,140 A 85,85 0 0,1 205,58" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-dasharray="6, 8" class="track-flow-feedback" marker-end="url(#cycleBlueArrowHeadB2C)" />
 
-                <!-- Text along the feedback path (in dark ink, not red) -->
                 <path id="loopTextPathB2C" d="M 135,140 A 85,85 0 0,1 205,58" fill="none" />
-                <text font-family="Outfit" font-weight="800" font-size="7.5" fill="var(--ink)" dy="-5">
-                  <textPath href="#loopTextPathB2C" startOffset="50%" text-anchor="middle">↻ reviews & data feed Capture</textPath>
-                </text>
-
-
 
                 <!-- Nodes -->
                 <!-- Step 1: Capture -->
@@ -1389,11 +1463,14 @@
                 </g>
               </svg>
             </div>
+            <div class="reveal-connector"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><path d="M2 2L12 12L22 2" stroke="#16242E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
 
           <!-- Step 3: Message & Channels -->
           <div class="reveal-level" data-step="3">
+            <h3 class="level-header">Message Pillars</h3>
             <div class="pillar-message-container" style="background-color: rgba(22, 36, 46, 0.08); padding: 1.25rem 1.5rem; border-radius: 10px; margin-bottom: 1.25rem; border-left: 4px solid var(--ink); border-top: 1px solid rgba(22,36,46,0.1); border-right: 1px solid rgba(22,36,46,0.1); border-bottom: 1px solid rgba(22,36,46,0.1);">
+              <span style="font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); opacity: 0.45; display: block; margin-bottom: 0.5rem;">e.g.</span>
               <h4 class="pillar-message-text" style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800; line-height: 1.25; color: var(--ink); margin-bottom: 0.4rem;">"Understand 7,000 years of Malta in 45 minutes — the first thing to do, in 17 languages, booked in one tap."</h4>
               <p class="pillar-message-sub" style="font-size: 0.85rem; color: var(--ink); opacity: 0.75; font-weight: 500; line-height: 1.4;">Desire + ease — not security. Skip-the-queue · guaranteed seat · best price direct.</p>
             </div>
@@ -1423,7 +1500,7 @@
                 </div>
               </div>
             </div>
-            <span class="ota-note" style="margin-top: 0.75rem; display: block; opacity: 0.6; font-size: 0.75rem;">Note: OTAs = reach, not the goal.</span>
+            <div class="reveal-connector"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><path d="M2 2L12 12L22 2" stroke="#16242E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
 
           <!-- Step 4: KPIs -->
@@ -1453,6 +1530,7 @@
                 <span class="kpi-step-metric" style="background-color: var(--red); color: var(--white); font-size: 0.72rem; padding: 0.15rem 0.45rem;">margin recovery</span>
               </div>
             </div>
+            <div class="reveal-connector"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><path d="M2 2L12 12L22 2" stroke="#16242E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
         </div>
 
@@ -1466,19 +1544,6 @@
 
     </div>
   </main>
-
-  <!-- --------------------------------------------------
-       BASEMENT FOUNDATION (MINIMAL PILLS ROW ON CANVAS)
-       -------------------------------------------------- -->
-  <footer class="basement-minimal" id="basementMinimal">
-    <h3 class="basement-title-mini">Built once, owned by the Group</h3>
-    <div class="basement-pills-row">
-      <span class="basement-pill">Shared measurement</span>
-      <span class="basement-pill">Shared first-party data</span>
-      <span class="basement-pill">Brand consistency</span>
-      <span class="basement-pill">Competitor & market watch</span>
-    </div>
-  </footer>
 
   <!-- --------------------------------------------------
        INTERACTIVE SCRIPT (STATE MACHINE)
@@ -1520,6 +1585,11 @@
 
         activeEngine = engine;
         body.className = `state-focus-${engine}`;
+
+        // Focus entry glow
+        const enterCard = engine === 'dmc' ? cardDMC : cardTME;
+        enterCard.classList.add('is-entering');
+        setTimeout(() => enterCard.classList.remove('is-entering'), 700);
 
         if (engine === 'dmc') {
           cardDMC.setAttribute('aria-expanded', 'true');
@@ -1634,6 +1704,19 @@
           const btnContainer = button.parentElement;
           initialParent.appendChild(btnContainer);
         }
+        updateProgressDots(engine, step);
+      }
+
+      // Sync progress dots with current step
+      function updateProgressDots(engine, step) {
+        const prefix = engine === 'dmc' ? 'DMC' : 'TME';
+        const dots = document.querySelectorAll(`#progress${prefix} .pdot`);
+        dots.forEach((dot, idx) => {
+          const dotStep = idx + 1;
+          dot.classList.remove('is-done', 'is-active');
+          if (dotStep < step) dot.classList.add('is-done');
+          else if (dotStep === step) dot.classList.add('is-active');
+        });
       }
 
       // --------------------------------------------------
@@ -1742,6 +1825,14 @@
           exitFocus();
         }
       });
+
+      // B3: Pulse hint on load — signals interactivity to first-time viewers (fires once)
+      setTimeout(() => {
+        btnRevealDMC.classList.add('pulse-hint');
+        btnRevealTME.classList.add('pulse-hint');
+        btnRevealDMC.addEventListener('animationend', () => btnRevealDMC.classList.remove('pulse-hint'), { once: true });
+        btnRevealTME.addEventListener('animationend', () => btnRevealTME.classList.remove('pulse-hint'), { once: true });
+      }, 1500);
 
     });
   </script>
